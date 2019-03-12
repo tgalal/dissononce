@@ -1,7 +1,10 @@
 class Hash(object):
-
     def __init__(self, name):
-        self._name = name
+        """
+        :param name:
+        :type name: str
+        """
+        self._name = name # type: str
 
     @property
     def name(self):

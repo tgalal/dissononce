@@ -1,10 +1,14 @@
 class Cipher(object):
     def __init__(self, name):
-        self.__name = name
+        """
+        :param name:
+        :type name: str
+        """
+        self._name = name # type: str
 
     @property
     def name(self):
-        return self.__name
+        return self._name
 
     def encrypt(self, key, nonce, ad, plaintext):
         '''
