@@ -238,7 +238,7 @@ class HandshakeState(object):
                     logger.debug("        temp=message[:DHLEN]")
                     temp = message[:self._dh.dhlen]
                 assert self._rs is None, "rs is not empty"
-                logger.debug("        DecryptAndHash(temp)")
+                logger.debug("        rs=DecryptAndHash(temp)")
                 self._rs = PublicKey(self._symmetricstate.decrypt_and_hash(temp))
                 message = message[len(temp):]
             elif token == 'ee':
