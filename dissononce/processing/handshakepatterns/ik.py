@@ -9,5 +9,5 @@ class IKHandshakePattern(HandshakePattern):
                 ("e", "es", "s", "ss"),
                 ("e", "ee", "se")
             ),
-            initiator_pre_messages= ("s",),
+            responder_pre_message_pattern= ("s",),
         )
