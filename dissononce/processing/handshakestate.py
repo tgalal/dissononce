@@ -32,6 +32,40 @@ class HandshakeState(object):
     def protocol_name(self):
         return self._protocol_name
 
+    def modify(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
+        """
+        :param handshake_pattern:
+        :type handshake_pattern: HandshakePattern
+        :param initiator:
+        :type initiator:
+        :param prologue:
+        :type prologue:
+        :param s:
+        :type s:
+        :param e:
+        :type e:
+        :param rs:
+        :type rs:
+        :param re:
+        :type re:
+        :return:
+        :rtype:
+        """
+        for pattern in handshake_pattern.initiator_pre_message_pattern:
+            for token in pattern:
+                if token == 'e':
+                    e = self._e
+                if token == 's':
+                    s = self._s
+        for pattern in handshake_pattern.responder_pre_message_pattern:
+            for token in pattern:
+                if token == 'e':
+                    re = self._re
+                if token == 's':
+                    rs = self._rs
+
+        return self.initialize(handshake_pattern, initiator, prologue, s, e, rs, re)
+
     def initialize(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
         """
         :param handshake_pattern: valid handshake_pattern
