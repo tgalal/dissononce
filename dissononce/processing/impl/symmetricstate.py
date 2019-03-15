@@ -1,14 +1,25 @@
-class SymmetricState(object):
+from dissononce.processing.impl.cipherstate import CipherState
+from dissononce.processing.symmetricstate import SymmetricState as BaseSymmetricState
+from dissononce.hash.hash import Hash
+
+
+class SymmetricState(BaseSymmetricState):
+    def __init__(self, cipherstate: CipherState, hash: Hash):
+        self._cipherstate = cipherstate
+        self._hashfn = hash
+        self._ck =  None
+        self._h = None
+
     @property
     def ciphername(self):
-        return None
+        return self._cipherstate.cipher.name
 
     @property
     def hashname(self):
-        return None
+        return self._hashfn.name
 
     def ciherstate_has_key(self):
-        pass
+        return self._cipherstate.has_key()
 
     def initialize_symmetric(self, protocolname):
         """
@@ -17,6 +28,14 @@ class SymmetricState(object):
         :return:
         :rtype:
         """
+        lendiff = len(protocolname) - self._hashfn.hashlen()
+
+        if lendiff <= 0:
+            self._h = protocolname + b"\0" * abs(lendiff)
+        else:
+            self._h = self._hashfn.hash(protocolname)
+
+        self._ck = self._h
 
     def mix_key(self, input_key_material):
         """
@@ -31,6 +50,11 @@ class SymmetricState(object):
         :return:
         :rtype:
         """
+        self._ck, temp_k = self._hashfn.hkdf(self._ck, input_key_material, 2)
+        if self._hashfn.hashlen() == 64:
+            temp_k = temp_k[:32]
+
+        self._cipherstate.initialize_key(temp_k)
 
     def mix_hash(self, data):
         """
@@ -42,6 +66,7 @@ class SymmetricState(object):
         :return:
         :rtype:
         """
+        self._h = self._hashfn.hash(self._h + data)
 
     def mix_key_and_hash(self, input_key_material):
         """
@@ -60,6 +85,7 @@ class SymmetricState(object):
         :return: h
         :rtype: bytes
         """
+        return self._h
 
     def encrypt_and_hash(self, plaintext):
         """
@@ -72,6 +98,9 @@ class SymmetricState(object):
         :return:
         :rtype: bytes
         """
+        ciphertext = self._cipherstate.encrypt_with_ad(self._h, plaintext)
+        self.mix_hash(ciphertext)
+        return ciphertext
 
 
     def decrypt_and_hash(self, ciphertext):
@@ -85,6 +114,9 @@ class SymmetricState(object):
         :return:
         :rtype: bytes
         """
+        plaintext = self._cipherstate.decrypt_with_ad(self._h, ciphertext)
+        self.mix_hash(ciphertext)
+        return plaintext
 
     def split(self):
         """
@@ -101,3 +133,15 @@ class SymmetricState(object):
         :return:
         :rtype: tuple
         """
+        temp_k1, temp_k2 = self._hashfn.hkdf(self._ck, b"", 2)
+        if self._hashfn.hashlen() == 64:
+            temp_k1 = temp_k1[:32]
+            temp_k2 = temp_k2[:32]
+
+        c1 = CipherState(self._cipherstate.cipher)
+        c2 = CipherState(self._cipherstate.cipher)
+        c1.initialize_key(temp_k1)
+        c2.initialize_key(temp_k2)
+
+        return c1, c2
+
