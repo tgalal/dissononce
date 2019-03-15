@@ -5,7 +5,7 @@ from dissononce.dh.key_public import PublicKey
 from dissononce.dh.dh import DH
 import logging
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 class HandshakeState(object):
 
