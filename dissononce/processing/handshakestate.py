@@ -32,6 +32,22 @@ class HandshakeState(object):
     def protocol_name(self):
         return self._protocol_name
 
+    @property
+    def rs(self):
+        return self._rs
+
+    @property
+    def re(self):
+        return self._re
+
+    @property
+    def s(self):
+        return self._s
+
+    @property
+    def e(self):
+        return self._e
+
     def modify(self, handshake_pattern, prologue, s, e=None, rs=None, re=None):
         """
         :param handshake_pattern:
