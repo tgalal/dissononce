@@ -10,6 +10,7 @@ class HandshakePattern(object):
                  message_patterns,
                  initiator_pre_messages=None,
                  responder_pre_message_pattern=None,
+                 interpret_as_bob=False
                  ):
         """
         :param name:
@@ -25,18 +26,25 @@ class HandshakePattern(object):
         self._message_patterns = message_patterns # type: tuple[tuple[str]]
         self._initiator_pre_message_pattern = initiator_pre_messages or tuple() # type: tuple[str]
         self._responder_pre_message_pattern = responder_pre_message_pattern or tuple() # type: tuple[str]
+        self._interpret_as_bob = interpret_as_bob # type: bool
 
     def __str__(self):
         out_pre = []
         out_messages = []
+        templ_send = self.__class__.TEMPLATE_REPR_MESSAGE_SEND
+        templ_recv = self.__class__.TEMPLATE_REPR_MESSAGE_RECV
+
         for pattern in self._initiator_pre_message_pattern:
-            out_pre.append(self.__class__.TEMPLATE_REPR_MESSAGE_RECV.format(tokens = ", ".join(pattern)))
+            out_pre.append(templ_send.format(tokens = ", ".join(pattern)))
 
         for pattern in self.responder_pre_message_pattern:
-            out_pre.append(self.__class__.TEMPLATE_REPR_MESSAGE_SEND.format(tokens = ", ".join(pattern)))
+            out_pre.append(templ_recv.format(tokens = ", ".join(pattern)))
 
         for i in range(0, len(self.message_patterns)):
-            template = self.__class__.TEMPLATE_REPR_MESSAGE_SEND if i % 2 == 0 else self.__class__.TEMPLATE_REPR_MESSAGE_RECV
+            use_send = i % 2 == 0
+            if self.interpret_as_bob:
+                use_send = not use_send
+            template = templ_send if use_send else templ_recv
             out_messages.append(template.format(tokens=", ".join(self.message_patterns[i])))
 
         message_patterns_formatted = "\n".join(out_messages)
@@ -51,6 +59,10 @@ class HandshakePattern(object):
     @property
     def name(self):
         return self._name
+
+    @property
+    def interpret_as_bob(self):
+        return self._interpret_as_bob
 
     @property
     def message_patterns(self):
