@@ -32,7 +32,7 @@ class HandshakeState(object):
     def protocol_name(self):
         return self._protocol_name
 
-    def modify(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
+    def modify(self, handshake_pattern, prologue, s, e=None, rs=None, re=None):
         """
         :param handshake_pattern:
         :type handshake_pattern: HandshakePattern
@@ -64,7 +64,7 @@ class HandshakeState(object):
                 if token == 's':
                     rs = self._rs
 
-        return self.initialize(handshake_pattern, initiator, prologue, s, e, rs, re)
+        return self.initialize(handshake_pattern, self._initiator, prologue, s, e, rs, re)
 
     def initialize(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
         """
