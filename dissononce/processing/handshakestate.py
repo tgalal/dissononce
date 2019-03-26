@@ -10,7 +10,7 @@ logging.getLogger('transitions').setLevel(logging.INFO)
 
 
 class HandshakeState(object):
-    def initialize(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
         """
         :param handshake_pattern: valid handshake_pattern
         :type handshake_pattern: HandshakePattern

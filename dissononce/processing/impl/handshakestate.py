@@ -51,7 +51,7 @@ class HandshakeState(BaseHandshakeState):
     def e(self):
         return self._e
 
-    def initialize(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
         """
         :param handshake_pattern: valid handshake_pattern
         :type handshake_pattern: HandshakePattern
@@ -144,7 +144,6 @@ class HandshakeState(BaseHandshakeState):
         """
         logger.debug("WriteMessage(payload, message_buffer)")
         message_pattern = self._message_patterns.pop(0)
-        assert self._s is not None, "s is empty"
 
         for token in message_pattern:
             logger.debug("    Processing token '%s'" % token)
@@ -163,6 +162,7 @@ class HandshakeState(BaseHandshakeState):
                 logger.debug("        MixHash(e.public_key)")
                 self._symmetricstate.mix_hash(self._e.public.data)
             elif token == 's':
+                assert self._s is not None, "s is empty"
                 logger.debug("        buffer.append(EncryptAndHash(s.public_key))")
                 message_buffer.extend(self._symmetricstate.encrypt_and_hash(self._s.public.data))
                 logger.debug([m for m in message_buffer])

@@ -9,7 +9,7 @@ class ForwarderHandshakeState(HandshakeState):
         """
         self._handshakestate = handshakestate
 
-    def initialize(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
         return self._handshakestate.initialize(handshake_pattern, initiator, prologue, s, e, rs, re)
 
     def write_message(self, payload, message_buffer):
