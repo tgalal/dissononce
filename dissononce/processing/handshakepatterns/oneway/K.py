@@ -4,10 +4,10 @@ from dissononce.processing.handshakepatterns.handshakepattern import HandshakePa
 class KHandshakePattern(HandshakePattern):
     def __init__(self, ):
         super(KHandshakePattern, self).__init__(
-            "K",
+            'K',
+            initiator_pre_messages=('s',),
+            responder_pre_message_pattern=('s',),
             message_patterns=(
-                ("e", "es", "ss"),
-            ),
-            initiator_pre_messages=("s",),
-            responder_pre_message_pattern=("s",),
+                ('e', 'es', 'ss'),
+            )
         )
