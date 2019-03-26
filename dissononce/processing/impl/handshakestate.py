@@ -152,12 +152,9 @@ class HandshakeState(BaseHandshakeState):
 
                 logger.debug("        e=GENERATE_KEYPAIR()")
                 self._e = self._dh.generate_keypair()
-                logger.debug([i for i in self._e.public.data])
-                logger.debug([i for i in self._e.private.data])
 
                 logger.debug("        message_buffer.append(e.public_key)")
                 message_buffer.extend(self._e.public.data)
-                logger.debug([m for m in message_buffer])
 
                 logger.debug("        MixHash(e.public_key)")
                 self._symmetricstate.mix_hash(self._e.public.data)
@@ -165,7 +162,6 @@ class HandshakeState(BaseHandshakeState):
                 assert self._s is not None, "s is empty"
                 logger.debug("        buffer.append(EncryptAndHash(s.public_key))")
                 message_buffer.extend(self._symmetricstate.encrypt_and_hash(self._s.public.data))
-                logger.debug([m for m in message_buffer])
             elif token == 'ee':
                 logger.debug("        MixKey(DH(e, re))")
                 self._symmetricstate.mix_key(self._dh.dh(self._e, self._re))
@@ -191,7 +187,6 @@ class HandshakeState(BaseHandshakeState):
 
         logger.debug("    buffer.append(EncryptAndHash(payload))")
         message_buffer.extend(self._symmetricstate.encrypt_and_hash(payload))
-        logger.debug([m for m in message_buffer])
 
         if len(self._message_patterns) == 0:
             return self._symmetricstate.split()
