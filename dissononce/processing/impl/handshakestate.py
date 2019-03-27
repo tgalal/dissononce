@@ -51,7 +51,7 @@ class HandshakeState(BaseHandshakeState):
     def e(self):
         return self._e
 
-    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """
         :param handshake_pattern: valid handshake_pattern
         :type handshake_pattern: HandshakePattern
@@ -68,6 +68,8 @@ class HandshakeState(BaseHandshakeState):
         :type rs: PublicKey | None
         :param re: remote party's ephemeral public key
         :type re: PublicKey | None
+        :param psks: Pre-shared keys to use in handshake
+        :type psks: tuple[bytes]
         :return:
         :rtype:
         """
@@ -79,6 +81,9 @@ class HandshakeState(BaseHandshakeState):
         self._e = e
         self._rs = rs
         self._re = re
+
+        self._psks = psks
+        self._pskmode = 'psk' in handshake_pattern.name
 
         logger.debug("Derived Noise Protocol name %s" % self._protocol_name)
         logger.debug("\n%s", handshake_pattern)
@@ -92,6 +97,8 @@ class HandshakeState(BaseHandshakeState):
                 if token == 'e':
                     logger.debug("MixHash(e.public_key)")
                     self._symmetricstate.mix_hash(e.public.data)
+                    if self._pskmode:
+                        self._symmetricstate.mix_key(e.public.data)
 
             for token in handshake_pattern.responder_pre_message_pattern:
                 if token == 's':
@@ -121,6 +128,8 @@ class HandshakeState(BaseHandshakeState):
                 elif token == 'e':
                     logger.debug("MixHash(e.public_key)")
                     self._symmetricstate.mix_hash(e.public.data)
+                    if self._pskmode:
+                        self._symmetricstate.mix_key(e.public.data)
 
         self._message_patterns = list(handshake_pattern.message_patterns)
 
@@ -158,6 +167,9 @@ class HandshakeState(BaseHandshakeState):
 
                 logger.debug("        MixHash(e.public_key)")
                 self._symmetricstate.mix_hash(self._e.public.data)
+                if self._pskmode:
+                    logger.debug("        MixKey(e.public_key)")
+                    self._symmetricstate.mix_key(self._e.public.data)
             elif token == 's':
                 assert self._s is not None, "s is empty"
                 logger.debug("        buffer.append(EncryptAndHash(s.public_key))")
@@ -182,6 +194,9 @@ class HandshakeState(BaseHandshakeState):
             elif token == 'ss':
                 logger.debug("        MixKey(DH(s, rs))")
                 self._symmetricstate.mix_key(self._dh.dh(self._s, self._rs))
+            elif token == 'psk':
+                assert self._psks is not None and len(self._psks), "psks is empty"
+                self._symmetricstate.mix_key_and_hash(self._psks.pop(0))
             else:
                 raise ValueError("Unsupported token '%s' found in message_pattern" % token)
 
@@ -212,6 +227,11 @@ class HandshakeState(BaseHandshakeState):
                 logger.debug("        MixHash(re.public_key)")
                 self._symmetricstate.mix_hash(self._re.data)
                 message = message[self._dh.dhlen:]
+
+                if self._pskmode:
+                    logger.debug("        MixKey(re.public_key)")
+                    self._symmetricstate.mix_key(self._re.data)
+
             elif token =='s':
                 if self._symmetricstate.ciherstate_has_key():
                     logger.debug("        temp=message[:DHLEN + 16]")
@@ -243,6 +263,9 @@ class HandshakeState(BaseHandshakeState):
             elif token == 'ss':
                 logger.debug("        MixKey(DH(s, rs))")
                 self._symmetricstate.mix_key(self._dh.dh(self._s, self._rs))
+            elif token == 'psk':
+                assert self._psks is not None and len(self._psks), "psks is empty"
+                self._symmetricstate.mix_key_and_hash(self._psks.pop(0))
             else:
                 raise ValueError("Unsupported token '%s' found in message_pattern" % token)
 

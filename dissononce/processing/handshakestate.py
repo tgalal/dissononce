@@ -10,7 +10,7 @@ logging.getLogger('transitions').setLevel(logging.INFO)
 
 
 class HandshakeState(object):
-    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """
         :param handshake_pattern: valid handshake_pattern
         :type handshake_pattern: HandshakePattern
@@ -27,6 +27,8 @@ class HandshakeState(object):
         :type rs: PublicKey | None
         :param re: remote party's ephemeral public key
         :type re: PublicKey | None
+        :param psks: Pre-shared keys to use in handshake
+        :type psks: tuple[bytes]
         :return:
         :rtype:
         """
