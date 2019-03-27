@@ -1,3 +1,6 @@
+from dissononce.protocol.parser import ProtocolParser
+
+
 class HandshakePattern(object):
 
     TEMPLATE_REPR = "{name}:\n{patterns}"
@@ -27,6 +30,7 @@ class HandshakePattern(object):
         self._initiator_pre_message_pattern = initiator_pre_messages or tuple() # type: tuple[str]
         self._responder_pre_message_pattern = responder_pre_message_pattern or tuple() # type: tuple[str]
         self._interpret_as_bob = interpret_as_bob # type: bool
+        self._origin_pattern, self._modifiers = ProtocolParser.parse_handshakepattern(self._name)
 
     def __str__(self):
         out_pre = []
@@ -75,3 +79,11 @@ class HandshakePattern(object):
     @property
     def responder_pre_message_pattern(self):
         return self._responder_pre_message_pattern
+
+    @property
+    def origin_name(self):
+        return self._origin_pattern
+
+    @property
+    def modifiers(self):
+        return self._modifiers
