@@ -51,7 +51,7 @@ class PatternModifier(object):
         """
         if not self._is_modifiable(pattern):
             raise ValueError("pattern %s is not modifiable by %s" % (pattern.name, self.name))
-        name = pattern.name + self.name
+        name = pattern.origin_name + ('+'.join(pattern.modifiers + (self.name,)))
         return HandshakePattern(
             name,
             self._get_message_patterns(pattern),
