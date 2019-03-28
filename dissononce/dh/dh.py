@@ -31,6 +31,14 @@ class DH(object):
         :rtype: KeyPair
         """
 
+    def create_public(self, data):
+        """
+        :type data: bytes
+        :return:
+        :rtype: PublicKey
+        """
+        raise PublicKey(data, self.dhlen)
+
     def dh(self, key_pair, public_key):
         """
         Performs a Diffie-Hellman calculation between the private key in key_pair and the public_key and returns an

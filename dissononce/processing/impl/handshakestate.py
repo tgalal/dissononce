@@ -223,7 +223,7 @@ class HandshakeState(BaseHandshakeState):
             if token == 'e':
                 assert self._re is None, "re is not empty"
                 logger.debug("        re=message[:DHLEN]")
-                self._re = PublicKey(message[:self._dh.dhlen])
+                self._re = self._dh.create_public(message[:self._dh.dhlen])
                 logger.debug("        MixHash(re.public_key)")
                 self._symmetricstate.mix_hash(self._re.data)
                 message = message[self._dh.dhlen:]
@@ -241,7 +241,7 @@ class HandshakeState(BaseHandshakeState):
                     temp = message[:self._dh.dhlen]
                 assert self._rs is None, "rs is not empty"
                 logger.debug("        rs=DecryptAndHash(temp)")
-                self._rs = PublicKey(self._symmetricstate.decrypt_and_hash(temp))
+                self._rs = self._dh.create_public(self._symmetricstate.decrypt_and_hash(temp))
                 message = message[len(temp):]
             elif token == 'ee':
                 logger.debug("        MixKey(DH(e, re))")
