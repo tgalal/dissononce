@@ -1,4 +1,5 @@
 from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
+from dissononce.processing.cipherstate import CipherState
 
 from dissononce.dh.keypair import KeyPair
 from dissononce.dh.public import PublicKey
@@ -56,7 +57,7 @@ class HandshakeState(object):
         :param message_buffer:
         :type message_buffer: bytearray
         :return:
-        :rtype: tuple | None
+        :rtype: tuple[CipherState, CipherState] | None
         """
     def read_message(self, message, payload_buffer):
         """
@@ -65,5 +66,5 @@ class HandshakeState(object):
         :param payload_buffer:
         :type payload_buffer: bytearray
         :return:
-        :rtype: tuple | None
+        :rtype: tuple[CipherState, CipherState] | None
         """

@@ -1,6 +1,7 @@
+from dissononce.cipher.cipher import Cipher
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from dissononce.cipher.cipher import Cipher
 
 class AESGCMCipher(Cipher):
     def __init__(self):
