@@ -1,7 +1,7 @@
 from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
 
 from dissononce.dh.keypair import KeyPair
-from dissononce.dh.key_public import PublicKey
+from dissononce.dh.public import PublicKey
 
 import logging
 

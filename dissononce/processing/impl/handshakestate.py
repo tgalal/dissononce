@@ -2,8 +2,8 @@ from dissononce.processing.symmetricstate import SymmetricState
 from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
 from dissononce.processing.handshakestate import HandshakeState as BaseHandshakeState
 
+from dissononce.dh.public import PublicKey
 from dissononce.dh.keypair import KeyPair
-from dissononce.dh.key_public import PublicKey
 from dissononce.dh.dh import DH
 
 import logging

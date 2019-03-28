@@ -2,8 +2,8 @@ from cryptography.hazmat.primitives.asymmetric import x25519
 from cryptography.hazmat.primitives import serialization
 
 from dissononce.dh.dh import DH
-from dissononce.dh.key_private import PrivateKey
-from dissononce.dh.key_public import PublicKey
+from dissononce.dh.private import PrivateKey
+from dissononce.dh.x25519.public import PublicKey
 from dissononce.dh.keypair import KeyPair
 
 
@@ -28,8 +28,15 @@ class X25519DH(DH):
             )
         )
 
-    def generate_keypair(self):
-        private = x25519.X25519PrivateKey.generate()
+    def create_public(self, data):
+        return PublicKey(data)
+
+    def generate_keypair(self, privatekey = None):
+        if privatekey is None:
+            private = x25519.X25519PrivateKey.generate()
+        else:
+            private = x25519.X25519PrivateKey.from_private_bytes(privatekey.data)
+
         public = private.public_key()
 
         return KeyPair (

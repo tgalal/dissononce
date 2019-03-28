@@ -1,5 +1,5 @@
 from dissononce.dh.keypair import KeyPair
-from dissononce.dh.key_public import PublicKey
+from dissononce.dh.public import PublicKey
 
 
 class DH(object):

@@ -1,11 +1,11 @@
 class PublicKey(object):
 
-    def __init__(self, data):
+    def __init__(self, keylen, data):
         """
         :param data: bytes
         """
-        if len(data) != 32:
-            raise ValueError("Wrong length: %d" % len(data))
+        if len(data) != keylen:
+           raise ValueError("Wrong length: %d" % len(data))
 
         self._data = data
 
