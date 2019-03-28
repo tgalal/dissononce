@@ -1,5 +1,6 @@
 from dissononce.dh.keypair import KeyPair
 from dissononce.dh.public import PublicKey
+from dissononce.dh.private import PrivateKey
 
 
 class DH(object):
@@ -19,12 +20,13 @@ class DH(object):
     def dhlen(self):
         return self._dhlen
 
-    def generate_keypair(self):
+    def generate_keypair(self, privatekey=None):
         """
         Generates a new Diffie-Hellman key pair. A DH key pair consists of public_key and private_key elements.
         A public_key represents an encoding of a DH public key into a byte sequence of length DHLEN.
         The public_key encoding details are specific to each set of DH functions.
-
+        :param privatekey:
+        :type privatekey: PrivateKey | None
         :return:
         :rtype: KeyPair
         """
