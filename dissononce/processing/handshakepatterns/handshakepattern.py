@@ -1,7 +1,9 @@
-from dissononce.protocol.parser import ProtocolParser
+import re
 
 
 class HandshakePattern(object):
+
+    REGEX_PATTERN_NAME_MODIFIERS = r"([A-Z1-9]{1,4})([a-z0-9+]+)*"
 
     TEMPLATE_REPR = "{name}:\n{patterns}"
     TEMPLATE_REPR_PATTERNS_WITH_PRE = "{pre_patterns}\n  ...\n{message_patterns}"
@@ -26,11 +28,11 @@ class HandshakePattern(object):
         :type responder_pre_message_pattern: tuple[str]
         """
         self._name = name # type: str
+        self._origin_pattern, self._modifiers = self.__class__.parse_handshakepattern(self._name)
         self._message_patterns = message_patterns # type: tuple[tuple[str]]
         self._initiator_pre_message_pattern = initiator_pre_messages or tuple() # type: tuple[str]
         self._responder_pre_message_pattern = responder_pre_message_pattern or tuple() # type: tuple[str]
         self._interpret_as_bob = interpret_as_bob # type: bool
-        self._origin_pattern, self._modifiers = ProtocolParser.parse_handshakepattern(self._name)
 
     def __str__(self):
         out_pre = []
@@ -87,3 +89,14 @@ class HandshakePattern(object):
     @property
     def modifiers(self):
         return self._modifiers
+
+    @classmethod
+    def parse_handshakepattern(cls, handshake_pattern_name):
+        matches = re.search(cls.REGEX_PATTERN_NAME_MODIFIERS, handshake_pattern_name).groups()[:]
+        matches = [match for match in matches if match is not None]
+        if len(matches) == 2:
+            return matches[0], tuple(matches[1].split('+'))
+        elif len(matches) == 1:
+            return matches[0], ()
+        else:
+            raise ValueError("Unknown handshake pattern format: %s" % handshake_pattern_name)
