@@ -85,9 +85,9 @@ class HandshakeState(BaseHandshakeState):
         self._psks = psks
         self._pskmode = 'psk' in handshake_pattern.name
 
-        logger.debug("Derived Noise Protocol name %s" % self._protocol_name)
+        logger.info("Derived Noise Protocol name %s" % self._protocol_name)
         logger.debug("\n%s", handshake_pattern)
-        logger.debug("Processing pre-messages")
+        logger.info("Processing pre-messages")
 
         if initiator:
             for token in handshake_pattern.initiator_pre_message_pattern:
@@ -151,7 +151,7 @@ class HandshakeState(BaseHandshakeState):
         :return:
         :rtype: tuple | None
         """
-        logger.debug("WriteMessage(payload, message_buffer)")
+        logger.info("WriteMessage(payload, message_buffer)")
         message_pattern = self._message_patterns.pop(0)
 
         for token in message_pattern:
@@ -215,7 +215,7 @@ class HandshakeState(BaseHandshakeState):
         :return:
         :rtype: tuple | None
         """
-        logger.debug("ReadMessage(message, payload_buffer)")
+        logger.info("ReadMessage(message, payload_buffer)")
         message_pattern = self._message_patterns.pop(0)
 
         for token in message_pattern:
