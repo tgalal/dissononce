@@ -4,7 +4,13 @@ from dissononce.hash.hash import Hash
 
 
 class SymmetricState(BaseSymmetricState):
-    def __init__(self, cipherstate: CipherState, hash: Hash):
+    def __init__(self, cipherstate, hash):
+        """
+        :param cipherstate:
+        :type cipherstate: CipherState
+        :param hash:
+        :type hash: Hash
+        """
         self._cipherstate = cipherstate
         self._hashfn = hash
         self._ck =  None

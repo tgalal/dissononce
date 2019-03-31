@@ -1,6 +1,6 @@
 class PrivateKey(object):
 
-    def __init__(self, data: bytes):
+    def __init__(self, data):
         """
         :param data: bytes
         """

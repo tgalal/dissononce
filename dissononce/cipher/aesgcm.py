@@ -1,5 +1,6 @@
 from dissononce.cipher.cipher import Cipher
 
+import struct
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
@@ -15,4 +16,4 @@ class AESGCMCipher(Cipher):
 
     @staticmethod
     def _format_nonce(n):
-        return b'\x00\x00\x00\x00' + n.to_bytes(length=8, byteorder='big')
+        return b'\x00\x00\x00\x00' + struct.pack('>Q', n)
