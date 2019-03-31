@@ -34,7 +34,7 @@ class SymmetricState(BaseSymmetricState):
         :return:
         :rtype:
         """
-        lendiff = len(protocolname) - self._hashfn.hashlen()
+        lendiff = len(protocolname) - self._hashfn.hashlen
 
         if lendiff <= 0:
             self._h = protocolname + b"\0" * abs(lendiff)
@@ -57,7 +57,7 @@ class SymmetricState(BaseSymmetricState):
         :rtype:
         """
         self._ck, temp_k = self._hashfn.hkdf(self._ck, input_key_material, 2)
-        if self._hashfn.hashlen() == 64:
+        if self._hashfn.hashlen == 64:
             temp_k = temp_k[:32]
 
         self._cipherstate.initialize_key(temp_k)
@@ -90,7 +90,7 @@ class SymmetricState(BaseSymmetricState):
         """
         self._ck, temp_h, temp_k = self._hashfn.hkdf(self._ck, input_key_material, 3)
         self.mix_hash(temp_h)
-        if self._hashfn.hashlen() == 64:
+        if self._hashfn.hashlen == 64:
             temp_k = temp_k[:32]
         self._cipherstate.initialize_key(temp_k)
 
@@ -151,7 +151,7 @@ class SymmetricState(BaseSymmetricState):
         :rtype: tuple
         """
         temp_k1, temp_k2 = self._hashfn.hkdf(self._ck, b"", 2)
-        if self._hashfn.hashlen() == 64:
+        if self._hashfn.hashlen == 64:
             temp_k1 = temp_k1[:32]
             temp_k2 = temp_k2[:32]
 

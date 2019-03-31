@@ -1,14 +1,25 @@
 class Hash(object):
-    def __init__(self, name):
+    def __init__(self, name, hashlen, blocklen):
         """
         :param name:
         :type name: str
         """
-        self._name = name # type: str
+        assert hashlen in (32, 64), "Unsupported hashlen %d" % hashlen
+        self._name = name  # type: str
+        self._hashlen = hashlen  # type: int
+        self._blocklen = blocklen  # type: int
 
     @property
     def name(self):
         return self._name
+
+    @property
+    def hashlen(self):
+        return self._hashlen
+
+    @property
+    def blocklen(self):
+        return self._blocklen
 
     def hash(self, data):
         '''
@@ -16,13 +27,6 @@ class Hash(object):
         :type data: bytes
         :return:
         :rtype: bytes
-        '''
-
-    def hashlen(self):
-        '''
-        :return:
-        :rtype: int
-        '''
 
     def hmac_hash(self, key, data):
         pass
