@@ -70,14 +70,14 @@ class GuardedHandshakeState(ForwarderHandshakeState):
 
         return Machine(states=states, transitions=transitions, initial=states[1])
 
-    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None):
+    def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         if self._handshake_machine.state == 'handshake':
             self._handshake_machine.reset()
 
         self._handshake_machine.start()
         self._pattern_machine = self._derive_pattern_machine(handshake_pattern, initiator)
 
-        return self._handshakestate.initialize(handshake_pattern, initiator, prologue, s, e, rs, re)
+        return self._handshakestate.initialize(handshake_pattern, initiator, prologue, s, e, rs, re, psks)
 
     def write_message(self, payload, message_buffer):
         self._handshake_machine.next()
