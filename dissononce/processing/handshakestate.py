@@ -1,9 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
-logging.getLogger('transitions').setLevel(logging.INFO)
-
-
 class HandshakeState(object):
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """
