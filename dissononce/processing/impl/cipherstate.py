@@ -1,12 +1,8 @@
-from dissononce.cipher.cipher import Cipher
-from dissononce.processing.cipherstate import CipherState as BaseCipherState
-
-
 class CipherState(object):
     def __init__(self, cipher):
         """
         :param cipher:
-        :type cipher: Cipher
+        :type cipher: dissononce.cipher.Cipher
         """
         self._cipher = cipher
         self._key = None

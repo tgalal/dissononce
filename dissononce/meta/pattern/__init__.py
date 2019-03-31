@@ -96,16 +96,16 @@ MAP_PATTERN = {
     NAME_PATTERN_N: NHandshakePattern,   NAME_PATTERN_K: KHandshakePattern,   NAME_PATTERN_X: XHandshakePattern,
     # deferred
     NAME_PATTERN_NK1: NK1HandshakePattern, NAME_PATTERN_NX1: NX1HandshakePattern,
-    NAME_PATTERN_X1N: X1NHandshakePattern, NAME_PATTERN_X1K: X1KHandshakePattern, NAME_PATTERN_XK1: XK1HandshakePattern,
-    NAME_PATTERN_X1K1: X1K1HandshakePattern, NAME_PATTERN_X1X: X1XHandshakePattern, NAME_PATTERN_XX1: XX1HandshakePattern,
-    NAME_PATTERN_X1X1: X1X1HandshakePattern,
+    NAME_PATTERN_X1N: X1NHandshakePattern, NAME_PATTERN_X1K: X1KHandshakePattern,
+    NAME_PATTERN_XK1: XK1HandshakePattern,
+    NAME_PATTERN_X1K1: X1K1HandshakePattern, NAME_PATTERN_X1X: X1XHandshakePattern,
+    NAME_PATTERN_XX1: XX1HandshakePattern, NAME_PATTERN_X1X1: X1X1HandshakePattern,
 
     NAME_PATTERN_K1N: K1NHandshakePattern, NAME_PATTERN_K1K: K1KHandshakePattern, NAME_PATTERN_KK1: KK1HandshakePattern,
-    NAME_PATTERN_K1K1: K1K1HandshakePattern, NAME_PATTERN_K1X: K1XHandshakePattern, NAME_PATTERN_KX1: KX1HandshakePattern,
-    NAME_PATTERN_K1X1: K1X1HandshakePattern,
+    NAME_PATTERN_K1K1: K1K1HandshakePattern, NAME_PATTERN_K1X: K1XHandshakePattern,
+    NAME_PATTERN_KX1: KX1HandshakePattern, NAME_PATTERN_K1X1: K1X1HandshakePattern,
 
     NAME_PATTERN_I1N: I1NHandshakePattern, NAME_PATTERN_I1K: I1KHandshakePattern, NAME_PATTERN_IK1: IK1HandshakePattern,
-    NAME_PATTERN_I1K1:I1K1HandshakePattern, NAME_PATTERN_I1X: I1XHandshakePattern, NAME_PATTERN_IX1: IX1HandshakePattern,
-    NAME_PATTERN_I1X1: I1X1HandshakePattern
+    NAME_PATTERN_I1K1: I1K1HandshakePattern, NAME_PATTERN_I1X: I1XHandshakePattern,
+    NAME_PATTERN_IX1: IX1HandshakePattern, NAME_PATTERN_I1X1: I1X1HandshakePattern
 }
-

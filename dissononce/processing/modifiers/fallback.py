@@ -19,4 +19,3 @@ class FallbackPatternModifier(PatternModifier):
 
     def _interpret_as_bob(self, handshakepattern):
         return True
-

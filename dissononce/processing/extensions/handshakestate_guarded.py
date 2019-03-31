@@ -21,7 +21,7 @@ class GuardedHandshakeState(ForwarderHandshakeState):
         ['finish', 'handshake', 'finish'],
         ['init', 'finish', 'handshake']
     ]
-    _TEMPLATE_PATTERN_STATE_READ  = 'read_{pattern}'
+    _TEMPLATE_PATTERN_STATE_READ = 'read_{pattern}'
     _TEMPLATE_PATTERN_STATE_WRITE = 'write_{pattern}'
 
     def __init__(self, handshakestate):
@@ -34,8 +34,8 @@ class GuardedHandshakeState(ForwarderHandshakeState):
             states=self._STATES,
             transitions=self._TRANSITIONS,
             initial='init'
-        ) # type: Machine
-        self._pattern_machine = None # type: Machine
+        )  # type: Machine
+        self._pattern_machine = None  # type: Machine
 
     def _derive_pattern_machine(self, handshake_pattern, initiator):
         """
@@ -62,7 +62,7 @@ class GuardedHandshakeState(ForwarderHandshakeState):
                 action = 'read' if read_phase else 'write'
                 transitions.append([action, prev_state, state])
 
-            if i == len(handshake_pattern.message_patterns)- 1:
+            if i == len(handshake_pattern.message_patterns) - 1:
                 transitions.append(['write' if read_phase else 'read', state, 'finish'])
 
             states.append(state)

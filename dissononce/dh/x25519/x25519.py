@@ -11,27 +11,19 @@ class X25519DH(DH):
     def __init__(self):
         super(X25519DH, self).__init__("25519", 32)
 
-    def dh(self, key_pair, public_key):
-        """
-        :param key_pair:
-        :type key_pair: KeyPair
-        :param public_key:
-        :type public_key: PublicKey
-        :return:
-        :rtype: bytes
-        """
+    def dh(self, keypair, publickey):
         return x25519.X25519PrivateKey.from_private_bytes(
-            key_pair.private.data
+            keypair.private.data
         ).exchange(
             x25519.X25519PublicKey.from_public_bytes(
-                public_key.data
+                publickey.data
             )
         )
 
     def create_public(self, data):
         return PublicKey(data)
 
-    def generate_keypair(self, privatekey = None):
+    def generate_keypair(self, privatekey=None):
         if privatekey is None:
             private = x25519.X25519PrivateKey.generate()
         else:
@@ -39,7 +31,7 @@ class X25519DH(DH):
 
         public = private.public_key()
 
-        return KeyPair (
+        return KeyPair(
             PublicKey(
                 public.public_bytes(
                     encoding=serialization.Encoding.Raw,

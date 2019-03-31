@@ -73,7 +73,6 @@ class SymmetricState(object):
         :rtype: bytes
         """
 
-
     def decrypt_and_hash(self, ciphertext):
         """
         DecryptAndHash(ciphertext):

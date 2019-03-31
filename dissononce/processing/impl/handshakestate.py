@@ -1,5 +1,4 @@
 from dissononce.processing.symmetricstate import SymmetricState
-from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
 from dissononce.processing.handshakestate import HandshakeState as BaseHandshakeState
 
 from dissononce.dh.public import PublicKey
@@ -21,15 +20,15 @@ class HandshakeState(BaseHandshakeState):
         :param dh
         :type DH
         """
-        self._symmetricstate = symmetricstate # type: SymmetricState
-        self._dh = dh   # type: DH
+        self._symmetricstate = symmetricstate  # type: SymmetricState
+        self._dh = dh  # type: DH
         self._s = None  # type: KeyPair
         self._e = None  # type: KeyPair | None
-        self._rs = None # type: PublicKey | None
-        self._re = None # type: PublicKey | None
+        self._rs = None  # type: PublicKey | None
+        self._re = None  # type: PublicKey | None
         self._initiator = None
-        self._message_patterns = None # type: list[tuple[str]]
-        self._protocol_name = None # type: str | None
+        self._message_patterns = None  # type: list[tuple[str]]
+        self._protocol_name = None  # type: str | None
 
     @property
     def protocol_name(self):
@@ -52,27 +51,6 @@ class HandshakeState(BaseHandshakeState):
         return self._e
 
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
-        """
-        :param handshake_pattern: valid handshake_pattern
-        :type handshake_pattern: HandshakePattern
-        :param initiator: boolean specifying this party's role as either initiator or responder
-        :type initiator: bool
-        :param prologue: prologue byte sequence which may be zero-length, or which may contain context information
-        that both parties want to confirm is identical
-        :type prologue: bytes
-        :param s: local static key pair
-        :type s: KeyPair
-        :param e: local ephemeral key pair
-        :type e: KeyPair | None
-        :param rs:  remote party's static public key
-        :type rs: PublicKey | None
-        :param re: remote party's ephemeral public key
-        :type re: PublicKey | None
-        :param psks: Pre-shared keys to use in handshake
-        :type psks: tuple[bytes]
-        :return:
-        :rtype:
-        """
         self._protocol_name = self._derive_protocol_name(handshake_pattern.name)
         self._symmetricstate.initialize_symmetric(self._protocol_name.encode())
         self._symmetricstate.mix_hash(prologue)
@@ -132,7 +110,6 @@ class HandshakeState(BaseHandshakeState):
                         self._symmetricstate.mix_key(e.public.data)
 
         self._message_patterns = list(handshake_pattern.message_patterns)
-
 
     def _derive_protocol_name(self, handshake_pattern_name):
         return self.__class__._TEMPLATE_PROTOCOL_NAME.format(
@@ -231,8 +208,7 @@ class HandshakeState(BaseHandshakeState):
                 if self._pskmode:
                     logger.debug("        MixKey(re.public_key)")
                     self._symmetricstate.mix_key(self._re.data)
-
-            elif token =='s':
+            elif token == 's':
                 if self._symmetricstate.ciherstate_has_key():
                     logger.debug("        temp=message[:DHLEN + 16]")
                     temp = message[:self._dh.dhlen + 16]
@@ -249,7 +225,7 @@ class HandshakeState(BaseHandshakeState):
             elif token == 'es':
                 if self._initiator:
                     logger.debug("        MixKey(DH(e, rs))")
-                    self._symmetricstate.mix_key(self._dh.dh(self._e, self._rs)) #<-
+                    self._symmetricstate.mix_key(self._dh.dh(self._e, self._rs))
                 else:
                     logger.debug("        MixKey(DH(s, re))")
                     self._symmetricstate.mix_key(self._dh.dh(self._s, self._re))
@@ -259,7 +235,7 @@ class HandshakeState(BaseHandshakeState):
                     self._symmetricstate.mix_key(self._dh.dh(self._s, self._re))
                 else:
                     logger.debug("        MixKey(DH(e, rs))")
-                    self._symmetricstate.mix_key(self._dh.dh(self._e, self._rs)) #<-
+                    self._symmetricstate.mix_key(self._dh.dh(self._e, self._rs))
             elif token == 'ss':
                 logger.debug("        MixKey(DH(s, rs))")
                 self._symmetricstate.mix_key(self._dh.dh(self._s, self._rs))

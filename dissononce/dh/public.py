@@ -5,7 +5,7 @@ class PublicKey(object):
         :param data: bytes
         """
         if len(data) != keylen:
-           raise ValueError("Wrong length: %d" % len(data))
+            raise ValueError("Wrong length: %d" % len(data))
 
         self._data = data
 

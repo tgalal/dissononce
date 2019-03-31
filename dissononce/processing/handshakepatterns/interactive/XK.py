@@ -5,7 +5,7 @@ class XKHandshakePattern(HandshakePattern):
     def __init__(self, ):
         super(XKHandshakePattern, self).__init__(
             'XK',
-            responder_pre_message_pattern= ('s',),
+            responder_pre_message_pattern=('s',),
             message_patterns=(
                 ('e', 'es'),
                 ('e', 'ee'),

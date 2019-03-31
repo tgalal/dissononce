@@ -27,12 +27,12 @@ class HandshakePattern(object):
         :param responder_pre_message_pattern:
         :type responder_pre_message_pattern: tuple[str]
         """
-        self._name = name # type: str
+        self._name = name  # type: str
         self._origin_pattern, self._modifiers = self.__class__.parse_handshakepattern(self._name)
-        self._message_patterns = message_patterns # type: tuple[tuple[str]]
-        self._initiator_pre_message_pattern = initiator_pre_messages or tuple() # type: tuple[str]
-        self._responder_pre_message_pattern = responder_pre_message_pattern or tuple() # type: tuple[str]
-        self._interpret_as_bob = interpret_as_bob # type: bool
+        self._message_patterns = message_patterns  # type: tuple[tuple[str]]
+        self._initiator_pre_message_pattern = initiator_pre_messages or tuple()  # type: tuple[str]
+        self._responder_pre_message_pattern = responder_pre_message_pattern or tuple()  # type: tuple[str]
+        self._interpret_as_bob = interpret_as_bob  # type: bool
 
     def __str__(self):
         out_pre = []
@@ -41,10 +41,10 @@ class HandshakePattern(object):
         templ_recv = self.__class__.TEMPLATE_REPR_MESSAGE_RECV
 
         for pattern in self._initiator_pre_message_pattern:
-            out_pre.append(templ_send.format(tokens = ", ".join(pattern)))
+            out_pre.append(templ_send.format(tokens=", ".join(pattern)))
 
         for pattern in self.responder_pre_message_pattern:
-            out_pre.append(templ_recv.format(tokens = ", ".join(pattern)))
+            out_pre.append(templ_recv.format(tokens=", ".join(pattern)))
 
         for i in range(0, len(self.message_patterns)):
             use_send = i % 2 == 0
@@ -56,7 +56,10 @@ class HandshakePattern(object):
         message_patterns_formatted = "\n".join(out_messages)
         if len(out_pre):
             pre_formatted = "\n".join(out_pre)
-            patterns_formatted = self.__class__.TEMPLATE_REPR_PATTERNS_WITH_PRE.format(pre_patterns=pre_formatted, message_patterns=message_patterns_formatted)
+            patterns_formatted = self.__class__.TEMPLATE_REPR_PATTERNS_WITH_PRE.format(
+                pre_patterns=pre_formatted,
+                message_patterns=message_patterns_formatted
+            )
         else:
             patterns_formatted = message_patterns_formatted
 

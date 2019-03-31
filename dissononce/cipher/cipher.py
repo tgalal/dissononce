@@ -4,7 +4,7 @@ class Cipher(object):
         :param name:
         :type name: str
         """
-        self._name = name # type: str
+        self._name = name  # type: str
 
     @property
     def name(self):

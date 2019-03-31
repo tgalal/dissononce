@@ -1,6 +1,5 @@
 from dissononce.processing.impl.cipherstate import CipherState
 from dissononce.processing.symmetricstate import SymmetricState as BaseSymmetricState
-from dissononce.hash.hash import Hash
 
 
 class SymmetricState(BaseSymmetricState):
@@ -9,11 +8,11 @@ class SymmetricState(BaseSymmetricState):
         :param cipherstate:
         :type cipherstate: CipherState
         :param hash:
-        :type hash: Hash
+        :type hash: dissononce.hash.Hash
         """
         self._cipherstate = cipherstate
         self._hashfn = hash
-        self._ck =  None
+        self._ck = None
         self._h = None
 
     @property

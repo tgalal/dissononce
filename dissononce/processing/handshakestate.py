@@ -1,9 +1,3 @@
-from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
-from dissononce.processing.cipherstate import CipherState
-
-from dissononce.dh.keypair import KeyPair
-from dissononce.dh.public import PublicKey
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,20 +8,20 @@ class HandshakeState(object):
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """
         :param handshake_pattern: valid handshake_pattern
-        :type handshake_pattern: HandshakePattern
+        :type handshake_pattern: dissononce.processing.handshakepatterns.handshakepattern.HandshakePattern
         :param initiator: boolean specifying this party's role as either initiator or responder
         :type initiator: bool
         :param prologue: prologue byte sequence which may be zero-length, or which may contain context information
         that both parties want to confirm is identical
         :type prologue: bytes
         :param s: local static key pair
-        :type s: KeyPair
+        :type s: dissononce.dh.keypair.KeyPair
         :param e: local ephemeral key pair
-        :type e: KeyPair | None
+        :type e: dissononce.dh.keypair.KeyPair | None
         :param rs:  remote party's static public key
-        :type rs: PublicKey | None
+        :type rs: dissononce.dh.public.PublicKey | None
         :param re: remote party's ephemeral public key
-        :type re: PublicKey | None
+        :type re: dissononce.dh.public.PublicKey | None
         :param psks: Pre-shared keys to use in handshake
         :type psks: tuple[bytes]
         :return:
@@ -57,7 +51,7 @@ class HandshakeState(object):
         :param message_buffer:
         :type message_buffer: bytearray
         :return:
-        :rtype: tuple[CipherState, CipherState] | None
+        :rtype: tuple[dissononce.processing.cipherstate.CipherState, dissononce.processing.cipherstate.CipherState]|None
         """
     def read_message(self, message, payload_buffer):
         """
@@ -66,5 +60,5 @@ class HandshakeState(object):
         :param payload_buffer:
         :type payload_buffer: bytearray
         :return:
-        :rtype: tuple[CipherState, CipherState] | None
+        :rtype: tuple[dissononce.processing.cipherstate.CipherState, dissononce.processing.cipherstate.CipherState]|None
         """

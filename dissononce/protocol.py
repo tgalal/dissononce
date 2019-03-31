@@ -20,13 +20,13 @@ class NoiseProtocol(object):
         :param hash:
         :type hash:
         """
-        self._pattern = pattern # type: HandshakePattern
-        self._dh = dh # type: DH
-        self._cipher = cipher # type: Cipher
-        self._hash = hash # type: Hash
-        self._cipherstate = CipherState(cipher) # type: CipherState
-        self._symmetricstate = SymmetricState(self._cipherstate, self._hash) # type: SymmetricState
-        self._handshakestate = HandshakeState(self._symmetricstate, dh or self._dh) # type: HandshakeState
+        self._pattern = pattern  # type: HandshakePattern
+        self._dh = dh  # type: DH
+        self._cipher = cipher  # type: Cipher
+        self._hash = hash  # type: Hash
+        self._cipherstate = CipherState(cipher)  # type: CipherState
+        self._symmetricstate = SymmetricState(self._cipherstate, self._hash)  # type: SymmetricState
+        self._handshakestate = HandshakeState(self._symmetricstate, dh or self._dh)  # type: HandshakeState
         self._oneway = len(HandshakePattern.parse_handshakepattern(pattern.name)[0]) == 1  # type: bool
 
     @property

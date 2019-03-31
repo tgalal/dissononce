@@ -1,6 +1,4 @@
-from dissononce.dh.keypair import KeyPair
 from dissononce.dh.public import PublicKey
-from dissononce.dh.private import PrivateKey
 
 
 class DH(object):
@@ -26,16 +24,16 @@ class DH(object):
         A public_key represents an encoding of a DH public key into a byte sequence of length DHLEN.
         The public_key encoding details are specific to each set of DH functions.
         :param privatekey:
-        :type privatekey: PrivateKey | None
+        :type privatekey: dissononce.dh.private.PrivateKey | None
         :return:
-        :rtype: KeyPair
+        :rtype: dissononce.dh.keypair.KeyPair
         """
 
     def create_public(self, data):
         """
         :type data: bytes
         :return:
-        :rtype: PublicKey
+        :rtype: dissononce.dh.public.PublicKey
         """
         raise PublicKey(data, self.dhlen)
 
@@ -45,9 +43,9 @@ class DH(object):
         output sequence of bytes of length DHLEN
 
         :param key_pair:
-        :type key_pair: KeyPair
+        :type key_pair: dissononce.dh.keypair.KeyPair
         :param public_key:
-        :type public_key: PublicKey
+        :type public_key: dissononce.dh.public.PublicKey
         :return:
         :rtype: bytes
         """

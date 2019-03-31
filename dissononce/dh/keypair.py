@@ -1,15 +1,10 @@
-from dissononce.dh.public import PublicKey
-from dissononce.dh.private import PrivateKey
-
-
 class KeyPair(object):
     def __init__(self, public_key, private_key):
         """
-
         :param public_key:
-        :type public_key: PublicKey
+        :type public_key: dissononce.dh.public.PublicKey
         :param private_key:
-        :type private_key: PrivateKey
+        :type private_key: dissononce.dh.private.PrivateKey
         """
         self._public_key = public_key
         self._private_key = private_key
@@ -18,7 +13,7 @@ class KeyPair(object):
     def public(self):
         """
         :return:
-        :rtype: PublicKey
+        :rtype: dissononce.dh.public.PublicKey
         """
         return self._public_key
 
@@ -26,6 +21,6 @@ class KeyPair(object):
     def private(self):
         """
         :return:
-        :rtype: PrivateKey
+        :rtype: dissononce.dh.private.PrivateKey
         """
         return self._private_key
