@@ -1,4 +1,4 @@
-from dissononce.processing.extensions.handshakestate_forwarder import ForwarderHandshakeState
+from dissononce.processing.extras.handshakestate_forwarder import ForwarderHandshakeState
 
 from transitions import Machine
 import logging
