@@ -1,3 +1,6 @@
+from dissononce.processing.symmetricstate import SymmetricState
+
+
 class HandshakeState(object):
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """
@@ -21,6 +24,10 @@ class HandshakeState(object):
         :return:
         :rtype:
         """
+
+    @property
+    def symmetricstate(self):
+        return None
 
     @property
     def rs(self):

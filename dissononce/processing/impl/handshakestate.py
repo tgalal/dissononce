@@ -35,6 +35,10 @@ class HandshakeState(BaseHandshakeState):
         return self._protocol_name
 
     @property
+    def symmetricstate(self):
+        return self._symmetricstate
+
+    @property
     def rs(self):
         return self._rs
 
