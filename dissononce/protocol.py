@@ -24,9 +24,6 @@ class NoiseProtocol(object):
         self._dh = dh  # type: DH
         self._cipher = cipher  # type: Cipher
         self._hash = hash  # type: Hash
-        self._cipherstate = CipherState(cipher)  # type: CipherState
-        self._symmetricstate = SymmetricState(self._cipherstate, self._hash)  # type: SymmetricState
-        self._handshakestate = HandshakeState(self._symmetricstate, dh or self._dh)  # type: HandshakeState
         self._oneway = len(HandshakePattern.parse_handshakepattern(pattern.name)[0]) == 1  # type: bool
 
     @property
@@ -49,14 +46,33 @@ class NoiseProtocol(object):
     def hash(self):
         return self._hash
 
-    @property
-    def cipherstate(self):
-        return self._cipherstate
+    def create_cipherstate(self, cipher=None):
+        """
+        :param cipher:
+        :type cipher: Cipher
+        :return:
+        :rtype: CipherState
+        """
+        return CipherState(cipher or self._cipher)
 
-    @property
-    def symmetricstate(self):
-        return self._symmetricstate
+    def create_symmetricstate(self, cipherstate=None, hash=None):
+        """
+        :param cipherstate:
+        :type cipherstate: CipherState
+        :param hash:
+        :type hash: Hash
+        :return:
+        :rtype: SymmetricState
+        """
+        return SymmetricState(cipherstate or self.create_cipherstate(), hash or self._hash)
 
-    @property
-    def handshakestate(self):
-        return self._handshakestate
+    def create_handshakestate(self, symmetricstate=None, dh=None):
+        """
+        :param symmetricstate:
+        :type symmetricstate: SymmetricState
+        :param dh:
+        :type dh: DH
+        :return:
+        :rtype: HandshakeState
+        """
+        return HandshakeState(symmetricstate or self.create_symmetricstate(), dh or self._dh)

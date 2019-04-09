@@ -62,17 +62,20 @@ class TestVectors(object):
         init_protocol = NoiseProtocol(noiseprotocol.pattern, init_dh, noiseprotocol.cipher, noiseprotocol.hash)
         resp_protocol = NoiseProtocol(noiseprotocol.pattern, resp_dh, noiseprotocol.cipher, noiseprotocol.hash)
 
+        init_protocol_handshakestate = init_protocol.create_handshakestate()
+        resp_protocol_handshakestate = resp_protocol.create_handshakestate()
+
         init_prologue = binascii.unhexlify(protocol_vectors['init_prologue'])
         init_s = init_dh.generate_keypair(PrivateKey(binascii.unhexlify(protocol_vectors['init_static']))) if 'init_static' in protocol_vectors else None
         init_rs = noiseprotocol.dh.create_public(binascii.unhexlify(protocol_vectors['init_remote_static'])) if 'init_remote_static' in protocol_vectors else None
-        init_psks = [binascii.unhexlify(vectors_psks) for vectors_psks in protocol_vectors['init_psks']] if 'init_psks' in protocol_vectors else None
+        init_psks = tuple([binascii.unhexlify(vectors_psks) for vectors_psks in protocol_vectors['init_psks']]) if 'init_psks' in protocol_vectors else None
 
         resp_prologue = binascii.unhexlify(protocol_vectors['resp_prologue'])
         resp_s = resp_dh.generate_keypair(PrivateKey(binascii.unhexlify(protocol_vectors['resp_static']))) if 'resp_static' in protocol_vectors else None
         resp_rs = noiseprotocol.dh.create_public(binascii.unhexlify(protocol_vectors['resp_remote_static'])) if 'resp_remote_static' in protocol_vectors else None
-        resp_psks = [binascii.unhexlify(vectors_psks) for vectors_psks in protocol_vectors['resp_psks']] if 'resp_psks' in protocol_vectors else None
+        resp_psks = tuple([binascii.unhexlify(vectors_psks) for vectors_psks in protocol_vectors['resp_psks']]) if 'resp_psks' in protocol_vectors else None
 
-        init_protocol.handshakestate.initialize(
+        init_protocol_handshakestate.initialize(
             handshake_pattern=noiseprotocol.pattern,
             initiator=True,
             prologue=init_prologue,
@@ -81,7 +84,7 @@ class TestVectors(object):
             psks=init_psks
         )
 
-        resp_protocol.handshakestate.initialize(
+        resp_protocol_handshakestate.initialize(
             handshake_pattern=noiseprotocol.pattern,
             initiator=False,
             prologue=resp_prologue,
@@ -103,14 +106,14 @@ class TestVectors(object):
 
             if i % 2 == 0:
                 if init_cipherstates is None:
-                    init_cipherstates = init_protocol.handshakestate.write_message(payload, message_buffer)
+                    init_cipherstates = init_protocol_handshakestate.write_message(payload, message_buffer)
                 if resp_cipherstates is None:
-                    resp_cipherstates = resp_protocol.handshakestate.read_message(bytes(message_buffer), payload_buffer)
+                    resp_cipherstates = resp_protocol_handshakestate.read_message(bytes(message_buffer), payload_buffer)
             else:
                 if resp_cipherstates is None:
-                    resp_cipherstates = resp_protocol.handshakestate.write_message(payload, message_buffer)
+                    resp_cipherstates = resp_protocol_handshakestate.write_message(payload, message_buffer)
                 if init_cipherstates is None:
-                    init_cipherstates = init_protocol.handshakestate.read_message(bytes(message_buffer), payload_buffer)
+                    init_cipherstates = init_protocol_handshakestate.read_message(bytes(message_buffer), payload_buffer)
 
             if init_cipherstates is not None and resp_cipherstates is not None:
                 transport_messages_offset = i+1
@@ -120,8 +123,10 @@ class TestVectors(object):
                 assert payload == payload_buffer
 
         if 'handshake_hash' in protocol_vectors:
-            assert init_protocol.symmetricstate.get_handshake_hash() == binascii.unhexlify(protocol_vectors['handshake_hash'])
-            assert init_protocol.symmetricstate.get_handshake_hash() == binascii.unhexlify(protocol_vectors['handshake_hash'])
+            assert init_protocol_handshakestate.symmetricstate.get_handshake_hash() == \
+                   binascii.unhexlify(protocol_vectors['handshake_hash'])
+            assert init_protocol_handshakestate.symmetricstate.get_handshake_hash() == \
+                   binascii.unhexlify(protocol_vectors['handshake_hash'])
 
         for i in range(transport_messages_offset, len(protocol_vectors['messages'])):
             message = protocol_vectors['messages'][i]
