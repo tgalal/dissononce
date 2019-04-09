@@ -1,4 +1,4 @@
-from dissononce.processing.extras.handshakestate_forwarder import ForwarderHandshakeState
+from dissononce.extras.processing.handshakestate_forwarder import ForwarderHandshakeState
 
 
 class SwitchableHandshakeState(ForwarderHandshakeState):

@@ -1,4 +1,4 @@
-from dissononce.meta.cipher import MAP_CIPHER
+from dissononce.extras.meta.cipher import MAP_CIPHER
 
 
 class CipherFactory(object):

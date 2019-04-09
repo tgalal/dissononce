@@ -1,4 +1,4 @@
-from dissononce.meta.pattern import MAP_PATTERN
+from dissononce.extras.meta.pattern import MAP_PATTERN
 
 
 class PatternFactory(object):

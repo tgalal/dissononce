@@ -1,4 +1,4 @@
-from dissononce.meta.modifier import MAP_MODIFIER
+from dissononce.extras.meta.modifier import MAP_MODIFIER
 
 
 class ModifierFactory(object):

@@ -3,7 +3,7 @@ import os
 import binascii
 
 from dissononce.protocol import NoiseProtocol
-from dissononce.meta.protocol.factory import NoiseProtocolFactory
+from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
 from dissononce.dh.private import PrivateKey
 
 from tests.dh_nogen import NoGenDH

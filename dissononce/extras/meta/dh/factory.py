@@ -1,4 +1,4 @@
-from dissononce.meta.dh import MAP_DH
+from dissononce.extras.meta.dh import MAP_DH
 
 
 class DHFactory(object):

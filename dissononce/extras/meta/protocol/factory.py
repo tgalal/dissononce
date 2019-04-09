@@ -1,8 +1,8 @@
-from dissononce.meta.modifier.factory import ModifierFactory
-from dissononce.meta.hash.factory import HashFactory
-from dissononce.meta.cipher.factory import CipherFactory
-from dissononce.meta.dh.factory import DHFactory
-from dissononce.meta.pattern.factory import PatternFactory
+from dissononce.extras.meta.modifier.factory import ModifierFactory
+from dissononce.extras.meta.hash.factory import HashFactory
+from dissononce.extras.meta.cipher.factory import CipherFactory
+from dissononce.extras.meta.dh.factory import DHFactory
+from dissononce.extras.meta.pattern.factory import PatternFactory
 from dissononce.protocol import NoiseProtocol
 from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
 

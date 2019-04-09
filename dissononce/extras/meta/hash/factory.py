@@ -1,4 +1,4 @@
-from dissononce.meta.hash import MAP_HASH
+from dissononce.extras.meta.hash import MAP_HASH
 
 
 class HashFactory(object):
