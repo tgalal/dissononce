@@ -2,7 +2,7 @@ import json
 import os
 import binascii
 
-from dissononce.protocol import NoiseProtocol
+from dissononce.extras.meta.protocol.protocol import NoiseProtocol
 from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
 from dissononce.dh.private import PrivateKey
 

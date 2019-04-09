@@ -3,7 +3,7 @@ from dissononce.extras.meta.hash.factory import HashFactory
 from dissononce.extras.meta.cipher.factory import CipherFactory
 from dissononce.extras.meta.dh.factory import DHFactory
 from dissononce.extras.meta.pattern.factory import PatternFactory
-from dissononce.protocol import NoiseProtocol
+from dissononce.extras.meta.protocol.protocol import NoiseProtocol
 from dissononce.processing.handshakepatterns.handshakepattern import HandshakePattern
 
 
