@@ -16,7 +16,7 @@ class KeyPair(keypair.KeyPair):
         :return:
         :rtype: KeyPair
         """
-        if len(data) != 64:
+        if len(data) != 112:
             raise ValueError("Wrong length: %d" % len(data))
 
         dissected = ByteUtil.split(data, 56, 56)
