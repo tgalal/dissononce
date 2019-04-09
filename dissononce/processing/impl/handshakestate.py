@@ -60,7 +60,7 @@ class HandshakeState(BaseHandshakeState):
         self._rs = rs
         self._re = re
 
-        self._psks = psks
+        self._psks = list(psks) if psks is not None else psks
         self._pskmode = 'psk' in handshake_pattern.name
 
         logger.info("Derived Noise Protocol name %s" % self._protocol_name)
