@@ -1,7 +1,6 @@
 from dissononce.dh.x448.public import PublicKey
 from dissononce.dh.private import PrivateKey
 from dissononce.dh import keypair
-from dissononce.util.byte import ByteUtil
 
 
 class KeyPair(keypair.KeyPair):
@@ -19,5 +18,4 @@ class KeyPair(keypair.KeyPair):
         if len(data) != 112:
             raise ValueError("Wrong length: %d" % len(data))
 
-        dissected = ByteUtil.split(data, 56, 56)
-        return cls(PublicKey(dissected[1]), PrivateKey(dissected[0]))
+        return cls(PublicKey(data[56:]), PrivateKey(data[:56]))
