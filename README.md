@@ -7,7 +7,7 @@ to read and understand, but hopefully also flexible enough to easily adopt futur
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Functions](#crypto-functions)
+  - [Crypto Functions](#crypto-functions)
   - [Processing](#processing)
   - [HandshakePattern](#handshakepattern)
   - [Modifiers](#modifiers)
@@ -32,7 +32,14 @@ to read and understand, but hopefully also flexible enough to easily adopt futur
 
 ### Crypto Functions
 
-instantiate:
+Each set of Crypto function (DH, Cipher, Hash) are enclosed inside an own class, where an implementation subclasses
+that base class and implements the methods.
+
+- DH base class: ```dissononce.dh.dh.DH```
+- Cipher base class: ```dissononce.cipher.cipher.Cipher```
+- Hash base class: ```dissononce.hash.hash.Hash```
+
+An example instantiating objects for X25519 DH, AESGCM Cipher and SHA256 Hash:
 
 ```python
 from dissononce.cipher.aesgcm import AESGCMCipher
@@ -43,6 +50,8 @@ cipher = AESGCMCipher()
 dh = X25519DH()
 hash = SHA256Hash()
 ```
+
+See [Appendix](#appendix) for other Crypto functions.
 
 ### Processing
 
