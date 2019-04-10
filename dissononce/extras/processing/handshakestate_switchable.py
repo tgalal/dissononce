@@ -9,7 +9,7 @@ class SwitchableHandshakeState(ForwarderHandshakeState):
         """
         super(SwitchableHandshakeState, self).__init__(handshakestate)
 
-    def switch(self, handshake_pattern, initiator, prologue, s, e=None, rs=None, re=None, psks=None):
+    def switch(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         for pattern in handshake_pattern.initiator_pre_message_pattern:
             for token in pattern:
                 if token == 'e':
