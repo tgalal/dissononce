@@ -6,7 +6,7 @@ from dissononce.extras.meta.protocol.protocol import NoiseProtocol
 from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
 from dissononce.dh.private import PrivateKey
 
-from tests.dh_nogen import NoGenDH
+from dissononce.extras.dh.dh_nogen import NoGenDH
 
 
 class TestVectors(object):
