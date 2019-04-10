@@ -69,49 +69,51 @@ class HandshakeState(BaseHandshakeState):
 
         logger.info("Derived Noise Protocol name %s" % self._protocol_name)
         logger.debug("\n%s", handshake_pattern)
-        logger.info("Processing pre-messages")
 
-        if initiator:
-            for token in handshake_pattern.initiator_pre_message_pattern:
-                if token == 's':
-                    logger.debug("MixHash(s.public_key)")
-                    self._symmetricstate.mix_hash(s.public.data)
-                if token == 'e':
-                    logger.debug("MixHash(e.public_key)")
-                    self._symmetricstate.mix_hash(e.public.data)
-                    if self._pskmode:
-                        self._symmetricstate.mix_key(e.public.data)
+        if len(handshake_pattern.initiator_pre_message_pattern) or len(handshake_pattern.responder_pre_message_pattern):
+            logger.info("Processing pre-messages")
 
-            for token in handshake_pattern.responder_pre_message_pattern:
-                if token == 's':
-                    logger.debug("MixHash(rs)")
-                    assert rs is not None, "a pre_message required rs but was empty"
-                    self._symmetricstate.mix_hash(rs.data)
-                elif token == 'e':
-                    logger.debug("MixHash(re)")
-                    assert re is not None, "a pre_message required re but was empty"
-                    self._symmetricstate.mix_hash(re.data)
+            if initiator:
+                for token in handshake_pattern.initiator_pre_message_pattern:
+                    if token == 's':
+                        logger.debug("MixHash(s.public_key)")
+                        self._symmetricstate.mix_hash(s.public.data)
+                    if token == 'e':
+                        logger.debug("MixHash(e.public_key)")
+                        self._symmetricstate.mix_hash(e.public.data)
+                        if self._pskmode:
+                            self._symmetricstate.mix_key(e.public.data)
 
-        else:
-            for token in handshake_pattern.initiator_pre_message_pattern:
-                if token == 's':
-                    logger.debug("MixHash(rs)")
-                    assert rs is not None, "a pre_message required rs but was empty"
-                    self._symmetricstate.mix_hash(rs.data)
-                elif token == 'e':
-                    logger.debug("MixHash(re)")
-                    assert re is not None, "a pre_message required re but was empty"
-                    self._symmetricstate.mix_hash(re.data)
+                for token in handshake_pattern.responder_pre_message_pattern:
+                    if token == 's':
+                        logger.debug("MixHash(rs)")
+                        assert rs is not None, "a pre_message required rs but was empty"
+                        self._symmetricstate.mix_hash(rs.data)
+                    elif token == 'e':
+                        logger.debug("MixHash(re)")
+                        assert re is not None, "a pre_message required re but was empty"
+                        self._symmetricstate.mix_hash(re.data)
 
-            for token in handshake_pattern.responder_pre_message_pattern:
-                if token == 's':
-                    logger.debug("MixHash(s.public_key)")
-                    self._symmetricstate.mix_hash(s.public.data)
-                elif token == 'e':
-                    logger.debug("MixHash(e.public_key)")
-                    self._symmetricstate.mix_hash(e.public.data)
-                    if self._pskmode:
-                        self._symmetricstate.mix_key(e.public.data)
+            else:
+                for token in handshake_pattern.initiator_pre_message_pattern:
+                    if token == 's':
+                        logger.debug("MixHash(rs)")
+                        assert rs is not None, "a pre_message required rs but was empty"
+                        self._symmetricstate.mix_hash(rs.data)
+                    elif token == 'e':
+                        logger.debug("MixHash(re)")
+                        assert re is not None, "a pre_message required re but was empty"
+                        self._symmetricstate.mix_hash(re.data)
+
+                for token in handshake_pattern.responder_pre_message_pattern:
+                    if token == 's':
+                        logger.debug("MixHash(s.public_key)")
+                        self._symmetricstate.mix_hash(s.public.data)
+                    elif token == 'e':
+                        logger.debug("MixHash(e.public_key)")
+                        self._symmetricstate.mix_hash(e.public.data)
+                        if self._pskmode:
+                            self._symmetricstate.mix_key(e.public.data)
 
         self._message_patterns = list(handshake_pattern.message_patterns)
 
