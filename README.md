@@ -294,7 +294,31 @@ Vectors, Tox
 
 ## Logging
 
-- doc Logging
+Enable debug-level logging for a detailed insight of a handshake process. The debug output syntax and formatting is 
+intended to be as close as possible to the language used in Noise specs. This might be useful for when using dissononce 
+as a reference implementation where one wants to understand what's going on internally and to easily relate to
+Noise specs.
+
+```
+>>> import dissononce, logging
+>>> dissononce.logger.setLevel(logging.DEBUG)
+>>> handshakestate.initialize(XXHandshakePattern(), True, b'', X448DH().generate_keypair())
+
+I dissononce.processing.impl.handshakestate - Derived Noise Protocol name Noise_XX_448_ChaChaPoly_SHA512
+XX:
+  -> e
+  <- e, ee, s, es
+  -> s, se
+
+>>> handshakestate.write_message(b'',bytearray())
+
+I dissononce.processing.impl.handshakestate - WriteMessage(payload, message_buffer)
+D dissononce.processing.impl.handshakestate -     Processing token 'e'
+D dissononce.processing.impl.handshakestate -         e=GENERATE_KEYPAIR()
+D dissononce.processing.impl.handshakestate -         message_buffer.append(e.public_key)
+D dissononce.processing.impl.handshakestate -         MixHash(e.public_key)
+D dissononce.processing.impl.handshakestate -     buffer.append(EncryptAndHash(payload))
+```
 
 ## Appendix
 
