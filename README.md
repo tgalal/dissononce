@@ -12,8 +12,8 @@ to read and understand, but hopefully also flexible enough to easily adopt futur
   - [HandshakePattern](#handshakepattern)
   - [Modifiers](#modifiers)
   - [Extras](#extras)
-    - [Crypto functions by name](#functions-by-name)
-    - [Noise Protocol by name](#noise-protocols-by-name)
+    - [Crypto functions by name](#meta-cipher-functions-by-name)
+    - [Noise Protocol by name](#meta-noise-protocols-by-name)
     - [GuardedHandshakeState](#guardedhandshakestate)
     - [SwitchableHandshakeState](#switchablehandshakestate)
     - [NoGenDH](#nogendh)
@@ -188,7 +188,10 @@ to as "Extras'. Examples for Extras are helpers, classes that simplify usage of 
 some rules. Extras should are to be decoupled as much as possible from the base spec implementation, they should not
 interfere with the base implementation flow or introduce conflicts with Noise specification.
 
-#### meta: Instantiate functions by name:
+#### meta: Cipher-functions by name:
+
+As an alternative to directly instantiating the Cipher-functions objects, they can also be created by name using 
+a factory designated to each type of Cipher-functions:
 
 ```python
 from dissononce.extras.meta.hash.factory import HashFactory
@@ -202,7 +205,19 @@ dh = DHFactory().get_dh('25519')
 
 ```
 
-#### meta: Instantiate Protocol by name:
+#### meta: Protocol by name:
+
+A Noise Protocol, that is:
+
+- DH, Cipher, Hash instance
+- CipherState instance
+- SymmetricState instance
+- HandshakeState instance
+- HandshakePattern
+
+can all be created by name. Use ```NoiseProtocolFactory``` to get a a ```NoiseProtocol``` instance which encloses
+instances of DH, Cipher, Hash, HandshakePattern, and exposes methods for creating  CipherState, SymmetricState, and 
+HandshakeState
 
 ```python
 from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
