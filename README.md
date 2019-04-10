@@ -35,9 +35,9 @@ to read and understand, but hopefully also flexible enough to easily adopt futur
 Each set of Crypto function (DH, Cipher, Hash) are enclosed inside an own class, where an implementation subclasses
 that base class and implements the methods.
 
-- DH base class: ```dissononce.dh.dh.DH```
-- Cipher base class: ```dissononce.cipher.cipher.Cipher```
-- Hash base class: ```dissononce.hash.hash.Hash```
+- DH-functions base class: ```dissononce.dh.dh.DH```
+- Cipher-functions base class: ```dissononce.cipher.cipher.Cipher```
+- Hash-functions base class: ```dissononce.hash.hash.Hash```
 
 An example instantiating objects for X25519 DH, AESGCM Cipher and SHA256 Hash:
 
@@ -55,29 +55,36 @@ See [Appendix](#appendix) for other Crypto functions.
 
 ### Processing
 
-Bootstrap by composition.  
+HandshakeState, SymmetricState and CipherState should ideally be constructed in a composition-manner, 
+where Cipher-functions dependencies are also to be instantiated before passing them to their dependants.
+
+- A CipherState requires a Cipher-functions object
+- A SymmetricState requires a CipherState and a Hash-functions object.
+- A HandshakeState depends on SymmetricState and DH-functions object.
 
 ```python
 from dissononce.processing.impl.handshakestate import HandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
-from dissononce.cipher.aesgcm import AESGCMCipher
-from dissononce.dh.x25519.x25519 import X25519DH
-from dissononce.hash.sha256 import SHA256Hash
+from dissononce.cipher.chachapoly import ChaChaPolyCipher
+from dissononce.dh.x448.x448 import X448DH
+from dissononce.hash.sha512 import SHA512Hash
 
 
 handshakestate = HandshakeState(
     SymmetricState(
         CipherState(
-            AESGCMCipher()
+            ChaChaPolyCipher
         ),
-        SHA256Hash()
+        SHA512Hash()
     ),
-    X25519DH()
+    X448DH()
 )
 ```
 
-### HandshakePattern
+For alternative ways of construction see [Extras](#extras).
+
+### Handshake Patterns
 
 The ```HandshakePattern``` class allows authoring of patterns with a simple syntax, similar to how patterns are 
 described in Noise spec.
@@ -121,7 +128,7 @@ K1K1:
 A modifier accepts a HandshakePattern and creates a new one with a modified name, and a modified set of message and 
 premessage patterns
 
-Fallback
+**Fallback**
 
 
 ```python
@@ -142,7 +149,7 @@ XXfallback:
 ```
 
 
-PSK
+**PSK**
 
 ```python
 from dissononce.processing.modifiers.psk import PSKPatternModifier
