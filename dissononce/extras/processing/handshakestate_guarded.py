@@ -1,6 +1,7 @@
 from dissononce.extras.processing.handshakestate_forwarder import ForwarderHandshakeState
 
 from transitions import Machine
+from transitions.core import MachineError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -17,12 +18,14 @@ class GuardedHandshakeState(ForwarderHandshakeState):
     _TRANSITIONS = [
         ['start', 'init', 'handshake'],
         ['next', 'handshake', '='],
-        ['reset', 'handshake', 'init'],
+        ['start', 'handshake', '='],
         ['finish', 'handshake', 'finish'],
-        ['init', 'finish', 'handshake']
+        ['start', 'finish', 'handshake']
     ]
     _TEMPLATE_PATTERN_STATE_READ = 'read_{pattern}'
     _TEMPLATE_PATTERN_STATE_WRITE = 'write_{pattern}'
+
+    ERROR_TEMPL = "Cannot {bad_method} while in {current} phase."
 
     def __init__(self, handshakestate):
         """
@@ -71,26 +74,54 @@ class GuardedHandshakeState(ForwarderHandshakeState):
         return Machine(states=states, transitions=transitions, initial=states[1])
 
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
-        if self._handshake_machine.state == 'handshake':
-            self._handshake_machine.reset()
+        try:
+            self._handshake_machine.start()
+        except MachineError as ex:
+            raise self._convert_machine_error(ex, 'initialize')
 
-        self._handshake_machine.start()
         self._pattern_machine = self._derive_pattern_machine(handshake_pattern, initiator)
 
         return self._handshakestate.initialize(handshake_pattern, initiator, prologue, s, e, rs, re, psks)
 
     def write_message(self, payload, message_buffer):
-        self._handshake_machine.next()
-        self._pattern_machine.write()
+        try:
+            self._handshake_machine.next()
+            self._pattern_machine.write()
+        except MachineError as ex:
+            raise self._convert_machine_error(ex, 'write_message')
+
         result = self._handshakestate.write_message(payload, message_buffer)
         if result is not None:
             self._handshake_machine.finish()
         return result
 
     def read_message(self, message, payload_buffer):
-        self._handshake_machine.next()
-        self._pattern_machine.read()
+        try:
+            self._handshake_machine.next()
+            self._pattern_machine.read()
+        except MachineError as ex:
+            raise self._convert_machine_error(ex, 'read_message')
+
         result = self._handshakestate.read_message(message, payload_buffer)
         if result is not None:
             self._handshake_machine.finish()
         return result
+
+    def _convert_machine_error(self, machine_error, bad_method):
+        """
+        :param machine_error:
+        :type machine_error: MachineError
+        :param bad_method:
+        :type bad_method: str
+        :return:
+        :rtype:
+        """
+        if self._handshake_machine.state == 'init':
+            current = 'initialize'
+        elif self._handshake_machine.state == 'handshake':
+            current = 'write_message' if bad_method == 'read_message' else 'write_message'
+        else:
+            current = self._handshake_machine.state
+
+        error_message = self.ERROR_TEMPL.format(bad_method=bad_method, current=current)
+        raise AssertionError(error_message)
