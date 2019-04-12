@@ -1,8 +1,13 @@
 # Dissononce
 
-Dissononce is a python implementation for Noise Protocol Framework. It's intended that the implementation is to 
-resemble definitions and Pseudo code mentioned in the original spec as close as possible. Code should be simple, easy 
-to read and understand, but hopefully also flexible enough to easily adopt future changes to Noise specifications.
+Dissononce is a python implementation for Noise Protocol Framework. A main goal of this project is to provide a simple,
+easy to read and understand practical reference for Noise enthusiasts, implementors and users. Therefore this project
+attempts to stick to the following guidelines:
+
+- Syntax is formatted to resemble as closely as possible definitions and pseudo code mentioned in Noise Specs.
+- Implementation should have as minimal python "magic" as possible (explicit is better than implicit).
+- Code should be simple, easy to read, follow and understand.
+- Flexibility to easily adopt future changes to Noise specifications.
 
 ## Contents
 
