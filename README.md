@@ -19,7 +19,7 @@ attempts to stick to the following guidelines:
   - [Handshake Patterns](#handshake-patterns)
   - [Modifiers](#modifiers)
   - [Extras](#extras)
-    - [Crypto functions by name](#meta-cipher-functions-by-name)
+    - [Crypto functions by name](#meta-crypto-functions-by-name)
     - [Noise Protocol by name](#meta-noise-protocols-by-name)
     - [GuardedHandshakeState](#guardedhandshakestate)
     - [SwitchableHandshakeState](#switchablehandshakestate)
@@ -63,8 +63,8 @@ See [Appendix](#appendix) for other Crypto functions.
 
 ### Processing
 
-HandshakeState, SymmetricState and CipherState should ideally be constructed in a composition-manner, 
-where Cipher-functions dependencies are also to be instantiated before passing them to their dependants.
+```HandshakeState```, ```SymmetricState``` and ```CipherState``` should ideally be constructed in a composition-manner,
+where Crypto-functions dependencies are also to be instantiated before passing them to their dependants.
 
 - A CipherState requires a Cipher-functions object
 - A SymmetricState requires a CipherState and a Hash-functions object.
@@ -196,10 +196,10 @@ to as "Extras'. Examples for Extras are helpers, classes that simplify usage of 
 some rules. Extras should are to be decoupled as much as possible from the base spec implementation, they should not
 interfere with the base implementation flow or introduce conflicts with Noise specification.
 
-#### meta: Cipher-functions by name:
+#### meta: Crypto-functions by name:
 
-As an alternative to directly instantiating the Cipher-functions objects, they can also be created by name using 
-a factory designated to each type of Cipher-functions:
+As an alternative to directly instantiating the Crypto-functions objects, they could also be created by name using
+a factory designated to each type of Crypto-functions:
 
 ```python
 from dissononce.extras.meta.hash.factory import HashFactory
