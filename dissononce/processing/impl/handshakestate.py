@@ -134,7 +134,7 @@ class HandshakeState(BaseHandshakeState):
         :param message_buffer:
         :type message_buffer: bytearray
         :return:
-        :rtype: tuple | None
+        :rtype: tuple[dissononce.processing.cipherstate.CipherState] | None
         """
         logger.info("WriteMessage(payload, message_buffer)")
         message_pattern = self._message_patterns.pop(0)
@@ -198,7 +198,7 @@ class HandshakeState(BaseHandshakeState):
         :param payload_buffer:
         :type payload_buffer: bytearray
         :return:
-        :rtype: tuple | None
+        :rtype: tuple[dissononce.processing.cipherstate.CipherState] | None
         """
         logger.info("ReadMessage(message, payload_buffer)")
         message_pattern = self._message_patterns.pop(0)
