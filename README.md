@@ -1,12 +1,12 @@
 # Dissononce
 
-Dissononce is a python implementation for Noise Protocol Framework. A main goal of this project is to provide a simple,
-easy to read and understand practical reference for Noise enthusiasts, implementors and users. Therefore this project
-attempts to stick to the following guidelines:
+Dissononce is a python implementation for [Noise Protocol Framework](https://noiseprotocol.org/).
+A main goal of this project is to provide a simple, easy to read and understand practical reference for
+Noise enthusiasts, implementors and users. Therefore this project attempts to stick to the following guidelines:
 
-- Syntax is formatted to resemble as closely as possible definitions and pseudo code mentioned in Noise Specs.
-- Implementation should have as minimal python "magic" as possible (explicit is better than implicit).
-- Code should be simple, easy to read, follow and understand.
+- Syntax that resembles as closely as possible definitions and pseudo code mentioned in Noise Specs.
+- As minimal python "magic" as possible (explicit is better than implicit).
+- Code that is simple, easy to read, follow and understand.
 - Flexibility to easily adopt future changes to Noise specifications.
 
 ## Contents
@@ -36,18 +36,28 @@ attempts to stick to the following guidelines:
 
 ## Installation
 
+From source:
+
+```
+python setup.py install
+```
+Using Pip:
+```
+pip install dissononce
+```
+
 ## Usage
 
 ### Crypto Functions
 
-Each set of Crypto function (DH, Cipher, Hash) are enclosed inside an own class, where an implementation subclasses
-that base class and implements the methods.
+Each set of Crypto functions (DH, Cipher, Hash) is enclosed inside an own base class, where an implementation subclasses
+that base class to implement the methods.
 
 - DH-functions base class: ```dissononce.dh.dh.DH```
 - Cipher-functions base class: ```dissononce.cipher.cipher.Cipher```
 - Hash-functions base class: ```dissononce.hash.hash.Hash```
 
-An example instantiating objects for X25519 DH, AESGCM Cipher and SHA256 Hash:
+Example instantiating objects for X25519 ```DH```, AESGCM ```Cipher``` and SHA256 ```Hash```:
 
 ```python
 from dissononce.cipher.aesgcm import AESGCMCipher
@@ -66,9 +76,9 @@ See [Appendix](#appendix) for other Crypto functions.
 ```HandshakeState```, ```SymmetricState``` and ```CipherState``` should ideally be constructed in a composition-manner,
 where Crypto-functions dependencies are also to be instantiated before passing them to their dependants.
 
-- A CipherState requires a Cipher-functions object
-- A SymmetricState requires a CipherState and a Hash-functions object.
-- A HandshakeState depends on SymmetricState and DH-functions object.
+- A ```CipherState``` requires a ```Cipher``` object
+- A ```SymmetricState``` requires a ```CipherState``` and a ```Hash``` object.
+- A ```HandshakeState``` requires a ```SymmetricState``` and a ```DH``` object.
 
 ```python
 from dissononce.processing.impl.handshakestate import HandshakeState
@@ -90,7 +100,7 @@ handshakestate = HandshakeState(
 )
 ```
 
-For alternative ways of construction see [Extras](#extras).
+See [Extras](#extras) for alternative methods of construction.
 
 ### Handshake Patterns
 
@@ -133,8 +143,8 @@ K1K1:
 
 ### Modifiers
 
-A modifier accepts a HandshakePattern and creates a new one with a modified name, and a modified set of message and 
-premessage patterns
+A ```Modifier``` accepts a ```HandshakePattern``` and creates a new one with a modified name, and a modified set of
+message and premessage patterns
 
 **Fallback**
 
@@ -177,7 +187,7 @@ NNpsk0+psk2:
 
 ```
 
-As usual, the modified pattern can also be used to initialize a HandshakeState:
+As usual, the modified ```HandshakePattern``` is used to (re)initialize a ```HandshakeState```:
 ```python
 
 handshakestate.initialize(
@@ -291,7 +301,6 @@ A ```NoGenDH``` wraps an existing ```DH``` object, but disables keypairs generat
 generated  keypairs to a single value determined by the```PrivateKey``` passed to it at construction. 
 This is used in tests where ephemeral values from test vectors must be used.
 
-
 ## Examples
 
 Inside [examples](examples) directory there are examples for some Noise protocols carrying out a handshake and
@@ -402,6 +411,6 @@ Deferred:
 ## References
 
 - [noise specs revision 34](https://github.com/noiseprotocol/noise_spec/releases/tag/v34)
-- [mailing list](https://moderncrypto.org/mail-archive/noise/)
+- [noise mailing list](https://moderncrypto.org/mail-archive/noise/)
 - [noiseprotocol for python3](https://github.com/plizonczyk/noiseprotocol)
 - [noise-java](https://github.com/rweather/noise-java)
