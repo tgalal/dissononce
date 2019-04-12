@@ -12,8 +12,8 @@ from dissononce.processing.modifiers.fallback import FallbackPatternModifier
 from dissononce.cipher.aesgcm import AESGCMCipher
 from dissononce.dh.x25519.x25519 import X25519DH
 from dissononce.hash.sha256 import SHA256Hash
+from dissononce.exceptions.decrypt import DecryptFailedException
 import dissononce, logging
-from cryptography.exceptions import InvalidTag
 
 if __name__ == "__main__":
     dissononce.logger.setLevel(logging.DEBUG)
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     alice_handshakestate.write_message(b'', message_buffer)
     try:
         bob_handshakestate.read_message(bytes(message_buffer), bytearray())
-    except InvalidTag:
+    except DecryptFailedException:
         # bob failed to read alice's message, possibly because alice used wrong static keys for bob, will now fallback
         # to XX
         bob_handshakestate.switch(FallbackPatternModifier().modify(XXHandshakePattern()), False, b'', s=bob_s)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     try:
         # alice doesn't yet know about the XX fallback switch and still expects IK's (e, ee, se) pattern
         alice_handshakestate.read_message(bytes(message_buffer), bytearray())
-    except InvalidTag:
+    except DecryptFailedException:
         # alice failed to read bob's message. but alice and bob had a pre-agreement that if will happen if bob for
         # whatever reason descides to fall back to XX, an therefore so must alice
         alice_handshakestate.switch(FallbackPatternModifier().modify(XXHandshakePattern()), True, b'', s=alice_s)
