@@ -4,12 +4,14 @@ Dissononce is a python implementation for Noise Protocol Framework. It's intende
 resemble definitions and Pseudo code mentioned in the original spec as close as possible. Code should be simple, easy 
 to read and understand, but hopefully also flexible enough to easily adopt future changes to Noise specifications.
 
+## Contents
+
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Crypto Functions](#crypto-functions)
   - [Processing](#processing)
-  - [HandshakePattern](#handshakepattern)
+  - [Handshake Patterns](#handshake-patterns)
   - [Modifiers](#modifiers)
   - [Extras](#extras)
     - [Crypto functions by name](#meta-cipher-functions-by-name)
@@ -17,6 +19,7 @@ to read and understand, but hopefully also flexible enough to easily adopt futur
     - [GuardedHandshakeState](#guardedhandshakestate)
     - [SwitchableHandshakeState](#switchablehandshakestate)
     - [NoGenDH](#nogendh)
+- [Examples](#examples)
 - [Testing](#testing)
 - [Logging](#logging)
 - [Appendix](#appendix)
@@ -74,7 +77,7 @@ from dissononce.hash.sha512 import SHA512Hash
 handshakestate = HandshakeState(
     SymmetricState(
         CipherState(
-            ChaChaPolyCipher
+            ChaChaPolyCipher()
         ),
         SHA512Hash()
     ),
@@ -215,9 +218,9 @@ A Noise Protocol, that is:
 - HandshakeState instance
 - HandshakePattern
 
-can all be created by name. Use ```NoiseProtocolFactory``` to get a a ```NoiseProtocol``` instance which encloses
-instances of DH, Cipher, Hash, HandshakePattern, and exposes methods for creating  CipherState, SymmetricState, and 
-HandshakeState
+can be created by name. Use ```NoiseProtocolFactory``` to get a a ```NoiseProtocol``` instance which encloses
+instances of ```DH```, ```Cipher```, ```Hash```, ```HandshakePattern```, and exposes methods for creating
+```CipherState```, ```SymmetricState```, and ```HandshakeState```.
 
 ```python
 from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
@@ -240,7 +243,7 @@ guarded.read_message(b'', bytearray())
 > AssertionError: Cannot read_message while in initialize phase.
 ```
 
-GuardedHandshakeState wraps a HandshakeState and enforces that ```initialize```, ```read_message```, 
+```GuardedHandshakeState``` wraps a ```HandshakeState``` and enforces that ```initialize```, ```read_message```,
 ```write_message``` are executed in correct sequence depending on the given ```HandshakePattern```.
 
 #### processing: SwitchableHandshakeState
@@ -264,11 +267,10 @@ switchable.switch(
 
 ```
 
-SwitchableHandshakeState facilitates transforming an ongoing Handshake into using a different pattern. Given then new
-```HandshakePattern```, it analyses the required initiator and responder pre-keys, and maintains them across the 
-transformation for use in the new Handshake. This is typically used for example when doing an IK then falling back to 
-XX, where  ```re``` is to be used as prekey in ```XXfallback```.
-
+```SwitchableHandshakeState``` facilitates transforming an ongoing Handshake into using a different pattern. Given
+the new```HandshakePattern```, it analyses the required initiator and responder pre-messages, and maintains them
+across the transformation for use in the new Handshake. This is typically used for example when doing
+a ```IK``` handshake then switching to```XXfallback``` where  ```re``` is to be used as a initiator pre-message.
 
 #### dh: NoGenDH
 
@@ -285,12 +287,21 @@ generated  keypairs to a single value determined by the```PrivateKey``` passed t
 This is used in tests where ephemeral values from test vectors must be used.
 
 
-## Example
+## Examples
 
+Inside [examples](examples) directory there are examples for some Noise protocols carrying out a handshake and
+transporting some messages for demonstration.
 
 ## Testing
 
-Vectors, Tox
+### Test Vectors
+
+Vectors used for testing are found under test/vectors. The data is of JSON type, and is formatted according
+to [Noise Test Vectors Specification](https://github.com/noiseprotocol/noise_wiki/wiki/Test-vectors). At the moment
+there are 2 Test Vectors files:
+
+- Tests Vectors from [cacophony](https://github.com/centromere/cacophony) under [tests/vectors/cacophony.txt](tests/vectors/cacophony.txt)
+- Test Vectors from [snow](https://github.com/mcginty/snow) under [tests/vectors/snow.txt](tests/vectors/snow.txt)
 
 ## Logging
 
