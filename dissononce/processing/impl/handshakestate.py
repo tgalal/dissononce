@@ -56,7 +56,11 @@ class HandshakeState(BaseHandshakeState):
 
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         self._protocol_name = self._derive_protocol_name(handshake_pattern.name)
+        logger.info("Derived Noise Protocol name %s" % self._protocol_name)
+        logger.debug("\n%s", handshake_pattern)
+
         self._symmetricstate.initialize_symmetric(self._protocol_name.encode())
+        logger.debug("MixHash(prologue)")
         self._symmetricstate.mix_hash(prologue)
         self._initiator = initiator
         self._s = s
@@ -67,8 +71,6 @@ class HandshakeState(BaseHandshakeState):
         self._psks = list(psks) if psks is not None else psks
         self._pskmode = 'psk' in handshake_pattern.name
 
-        logger.info("Derived Noise Protocol name %s" % self._protocol_name)
-        logger.debug("\n%s", handshake_pattern)
 
         if len(handshake_pattern.initiator_pre_message_pattern) or len(handshake_pattern.responder_pre_message_pattern):
             logger.info("Processing pre-messages")
