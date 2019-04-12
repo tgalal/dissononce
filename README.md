@@ -8,6 +8,9 @@ Noise enthusiasts, implementors and users. Therefore this project attempts to st
 - As minimal python "magic" as possible (explicit is better than implicit).
 - Code that is simple, easy to read, follow and understand.
 - Flexibility to easily adopt future changes to Noise specifications.
+- Deviations from Noise Specs (additions, opinionated specs and API changes..etc) are isolated from original
+implementation/API and are optional to use.
+- Deviations from Noise Specs do not influence adjustments to original implementation/API that conflict with Noise Specs.
 
 ## Contents
 
@@ -104,11 +107,9 @@ See [Extras](#extras) for alternative methods of construction.
 
 ### Handshake Patterns
 
-The ```HandshakePattern``` class allows authoring of patterns with a simple syntax, similar to how patterns are 
+The ```HandshakePattern``` class allows authoring of patterns using a simple syntax, similar to how patterns are
 described in Noise spec.
 
-- Although it's common practice for tokens to be declared somewhere as constants and imported for use, 
-I think ```'ee'``` is cleaner and simpler than to import and use ```TOKEN_EE``` from somewhere.
 - message_patterns is a tuple/list of tuples of token(s).
 - initiator_pre_messages is a tuple of tokens
 - responder_pre_message_pattern is a tuple of tokens
@@ -201,10 +202,10 @@ handshakestate.initialize(
 
 ### Extras
 
-Class and functions that are not part of Noise Protocol specification, but are part of this implementation are referred
-to as "Extras'. Examples for Extras are helpers, classes that simplify usage of the library or wrappers that enforce
-some rules. Extras should are to be decoupled as much as possible from the base spec implementation, they should not
-interfere with the base implementation flow or introduce conflicts with Noise specification.
+Classes and functions that are not part of Noise Protocol specification but are part of this implementation are referred
+to as "Extras" or "Deviations". Examples for Extras are helpers, classes that simplify usage of the library or wrappers
+that enforce some rules or design patterns. Extras should be decoupled as much as possible from the base spec
+implementation and never referenced from there.
 
 #### meta: Crypto-functions by name:
 
