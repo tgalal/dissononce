@@ -1,5 +1,4 @@
 from dissononce.extras.processing.handshakestate_forwarder import ForwarderHandshakeState
-
 from transitions import Machine
 from transitions.core import MachineError
 import logging
@@ -9,7 +8,10 @@ logging.getLogger('transitions').setLevel(logging.INFO)
 
 
 class GuardedHandshakeState(ForwarderHandshakeState):
-
+    """GuardedHandshakeState wraps an existing HandshakeState to enforce a correct flow of the handshake process.
+    This includes making sure the HandshakeState is initialized before usage, and that the flow order of write_message
+    and read_message invocations match the HandshakePattern being used. A violation will result in an AssertionError
+    getting raised."""
     _STATES = [
         'init',
         'handshake',

@@ -2,6 +2,10 @@ from dissononce.extras.processing.handshakestate_forwarder import ForwarderHands
 
 
 class SwitchableHandshakeState(ForwarderHandshakeState):
+    """SwitchableHandshakeState facilitates transforming an ongoing Handshake into using a different pattern.
+    Given the newHandshakePattern, it analyses the required initiator and responder pre-messages, and maintains them
+    across the transformation for use in the new Handshake. This is typically used for example when doing a IK
+    handshake then switching to XXfallback where re is to be used as a initiator pre-message."""
     def __init__(self, handshakestate):
         """
         :param handshakestate:
