@@ -2,7 +2,7 @@
 
 Dissononce is a python implementation for [Noise Protocol Framework](https://noiseprotocol.org/).
 A main goal of this project is to provide a simple, easy to read and understand practical reference for
-Noise enthusiasts, implementors and users. Therefore this project attempts to stick to the following guidelines:
+Noise enthusiasts, implementers and users. Therefore this project attempts to stick to the following guidelines:
 
 - Syntax that resembles as closely as possible definitions and pseudo code mentioned in Noise Specs.
 - As minimal python "magic" as possible (explicit is better than implicit).
@@ -12,9 +12,20 @@ Noise enthusiasts, implementors and users. Therefore this project attempts to st
 implementation/API and are optional to use.
 - Deviations from Noise Specs do not influence adjustments to original implementation/API that conflict with Noise Specs.
 
+## META-INF
+```
+dissononce version: 0.34.0
+noise revision: 34
+released: 2019-04-13
+requires:
+- python>=2.5,<=3.7
+- cryptography==2.6.1
+uses:
+- transitions==0.6.9
+```
+
 ## Contents
 
-- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Crypto Functions](#crypto-functions)
@@ -24,18 +35,14 @@ implementation/API and are optional to use.
   - [Extras](#extras)
     - [Crypto functions by name](#meta-crypto-functions-by-name)
     - [Noise Protocol by name](#meta-noise-protocols-by-name)
-    - [GuardedHandshakeState](#guardedhandshakestate)
-    - [SwitchableHandshakeState](#switchablehandshakestate)
+    - [GuardedHandshakeState](#processing-guardedhandshakestate)
+    - [SwitchableHandshakeState](#processing-switchablehandshakestate)
     - [NoGenDH](#nogendh)
 - [Examples](#examples)
 - [Testing](#testing)
 - [Logging](#logging)
 - [Appendix](#appendix)
 
-## Requirements
-
-- python2.5-3.x
-- cryptography
 
 ## Installation
 
@@ -259,8 +266,10 @@ guarded.read_message(b'', bytearray())
 > AssertionError: Cannot read_message while in initialize phase.
 ```
 
-```GuardedHandshakeState``` wraps a ```HandshakeState``` and enforces that ```initialize```, ```read_message```,
-```write_message``` are executed in correct sequence depending on the given ```HandshakePattern```.
+```GuardedHandshakeState``` wraps an existing ```HandshakeState``` to enforce a correct flow of the handshake process.
+This includes making sure the ```HandshakeState``` is initialized before usage, and that the flow order of
+```write_message``` and ```read_message``` invocations match the ```HandshakePattern``` being used. A violation will
+result in an AssertionError getting raised.
 
 #### processing: SwitchableHandshakeState
 
@@ -286,7 +295,7 @@ switchable.switch(
 ```SwitchableHandshakeState``` facilitates transforming an ongoing Handshake into using a different pattern. Given
 the new```HandshakePattern```, it analyses the required initiator and responder pre-messages, and maintains them
 across the transformation for use in the new Handshake. This is typically used for example when doing
-a ```IK``` handshake then switching to```XXfallback``` where  ```re``` is to be used as a initiator pre-message.
+a ```IK``` handshake then switching to ```XXfallback``` where  ```re``` is to be used as a initiator pre-message.
 
 #### dh: NoGenDH
 
