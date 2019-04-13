@@ -11,17 +11,6 @@ import binascii
 
 class TestVectors(object):
     DIR_VECTORS = os.path.join(os.path.dirname(__file__), 'vectors')
-    VECTOR_INIT_PROLOGUE = 'init_prologue'
-    VECTOR_INIT_STATIC = 'init_static'
-    VECTOR_INIT_EPHEMERAL = 'init_ephemeral'
-    VECTOR_INIT_REMOTE_STATIC = 'init_remote_static'
-    VECTOR_INIT_PSKS = 'init_psks'
-    VECTOR_RESP_PROLOGUE = 'resp_prologue'
-    VECTOR_RESP_STATIC = 'resp_static'
-    VECTOR_RESP_EPHEMERAL = 'resp_ephemeral'
-    VECTOR_RESP_REMOTE_STATIC = 'resp_remote_static'
-    VECTOR_RESP_PSKS = 'resp_psks'
-
     VECTOR_INIT = 'init'
     VECTOR_RESP = 'resp'
 
@@ -36,8 +25,6 @@ class TestVectors(object):
     VECTOR_MESSAGE_PAYLOAD = 'payload'
     VECTOR_MESSAGE_CIPHERTEXT = 'ciphertext'
 
-
-
     def pytest_generate_tests(self, metafunc):
         vectors_files = [os.path.join(self.DIR_VECTORS, f) for f in os.listdir(self.DIR_VECTORS) if os.path.isfile(os.path.join(self.DIR_VECTORS, f))]
         vectors = map(self._read_vectors_file, vectors_files)
@@ -49,11 +36,11 @@ class TestVectors(object):
                 try:
                     vector = self._deserialize_vector(protocol_vector)
                     noiseprotocol = factory.get_noise_protocol(protocol_vector['protocol_name'])
-                    relevant_vectors.append((noiseprotocol, protocol_vector, vector))
+                    relevant_vectors.append((noiseprotocol, vector))
                 except ValueError:
                     pass
 
-        metafunc.parametrize(('noiseprotocol', 'protocol_vectors', 'vector'), relevant_vectors)
+        metafunc.parametrize(('noiseprotocol', 'vector'), relevant_vectors)
 
     def _read_vectors_file(self, path):
         """
@@ -66,7 +53,7 @@ class TestVectors(object):
             out = json.load(f)
         return out
 
-    def _get_vector_prop(self, vectordict, initiator, prop, default=None, transformFn=None):
+    def _get_vector_prop(self, vectordict, initiator, prop, default=None):
         """
         :param vectordict:
         :type vectordict: dict
@@ -84,8 +71,6 @@ class TestVectors(object):
             property = prop
 
         value = vectordict[property] if property in vectordict else None
-        # if value is not None and transformFn is not None:
-        #     return transformFn(value)
         return value or default
 
     def _deserialize_vector(self, vectordict):
@@ -134,7 +119,7 @@ class TestVectors(object):
             ]
         )
 
-    def test_noise_protocol(self, noiseprotocol, protocol_vectors, vector):
+    def test_noise_protocol(self, noiseprotocol, vector):
         """
         :param noiseprotocol:
         :type noiseprotocol: NoiseProtocol
