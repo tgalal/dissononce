@@ -1,8 +1,10 @@
 """
 The following demonstrates a Noise_IK_25519_AESGCM_SHA256 that fails during handshake, making initiator and responder
-switch to Noise_XXfallback_25519_AESGCM_SHA256
+switch to Noise_XXfallback_25519_AESGCM_SHA256. In this example a SwitchableHandshakeState will be used to carry over
+necessary handshakestate variables to next HandshakePattern.
 """
 from dissononce.processing.impl.handshakestate import HandshakeState
+from dissononce.extras.processing.handshakestate_switchable import SwitchableHandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
 from dissononce.processing.handshakepatterns.interactive.XX import XXHandshakePattern
@@ -23,23 +25,27 @@ if __name__ == "__main__":
     bob_s = X25519DH().generate_keypair()
 
     # prepare handshakestate objects for initiator and responder
-    alice_handshakestate = HandshakeState(
-        SymmetricState(
-            CipherState(
-                AESGCMCipher()
+    alice_handshakestate = SwitchableHandshakeState(
+        HandshakeState(
+            SymmetricState(
+                CipherState(
+                    AESGCMCipher()
+                ),
+                SHA256Hash()
             ),
-            SHA256Hash()
-        ),
-        X25519DH()
+            X25519DH()
+        )
     )
-    bob_handshakestate = HandshakeState(
-        SymmetricState(
-            CipherState(
-                AESGCMCipher()
+    bob_handshakestate = SwitchableHandshakeState(
+        HandshakeState(
+            SymmetricState(
+                CipherState(
+                    AESGCMCipher()
+                ),
+                SHA256Hash()
             ),
-            SHA256Hash()
-        ),
-        X25519DH()
+            X25519DH()
+        )
     )
     # initialize handshakestate objects
     alice_handshakestate.initialize(IKHandshakePattern(), True, b'', s=alice_s, rs=alice_rs)
@@ -53,9 +59,7 @@ if __name__ == "__main__":
     except DecryptFailedException:
         # bob failed to read alice's message, possibly because alice used wrong static keys for bob, will now fallback
         # to XX
-        bob_handshakestate.initialize(
-            FallbackPatternModifier().modify(XXHandshakePattern()), False, b'', s=bob_s,  re=bob_handshakestate.re
-        )
+        bob_handshakestate.switch(FallbackPatternModifier().modify(XXHandshakePattern()), False, b'', s=bob_s)
 
     # <- e, ee, s, es
     message_buffer = bytearray()
@@ -67,9 +71,7 @@ if __name__ == "__main__":
     except DecryptFailedException:
         # alice failed to read bob's message. but alice and bob had a pre-agreement that if will happen if bob for
         # whatever reason descides to fall back to XX, an therefore so must alice
-        alice_handshakestate.initialize(
-            FallbackPatternModifier().modify(XXHandshakePattern()), True, b'', s=alice_s, e=alice_handshakestate.e
-        )
+        alice_handshakestate.switch(FallbackPatternModifier().modify(XXHandshakePattern()), True, b'', s=alice_s)
 
     # alice should now successfuly read bob's message, which includes bob's new static public key.
     alice_handshakestate.read_message(bytes(message_buffer), bytearray())
