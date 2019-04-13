@@ -1,5 +1,4 @@
 from dissononce.dh.dh import DH
-from dissononce.dh.private import PrivateKey
 
 
 class NoGenDH(DH):
@@ -8,7 +7,7 @@ class NoGenDH(DH):
         :param dh:
         :type dh: DH
         :param privatekey:
-        :type privatekey: PrivateKey
+        :type privatekey: dissononce.dh.private.PrivateKey
         """
         super(NoGenDH, self).__init__(dh.name, dh.dhlen)
         self._dh = dh

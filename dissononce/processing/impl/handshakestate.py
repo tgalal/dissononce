@@ -71,7 +71,6 @@ class HandshakeState(BaseHandshakeState):
         self._psks = list(psks) if psks is not None else psks
         self._pskmode = 'psk' in handshake_pattern.name
 
-
         if len(handshake_pattern.initiator_pre_message_pattern) or len(handshake_pattern.responder_pre_message_pattern):
             logger.info("Processing pre-messages")
 

@@ -1,6 +1,3 @@
-from dissononce.processing.symmetricstate import SymmetricState
-
-
 class HandshakeState(object):
     def initialize(self, handshake_pattern, initiator, prologue, s=None, e=None, rs=None, re=None, psks=None):
         """

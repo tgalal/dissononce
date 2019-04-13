@@ -1,7 +1,6 @@
 """
 This following demonstrates a Noise_XX_25519_AESGCM_SHA256 handshake and initial transport messages.
 """
-
 from dissononce.processing.impl.handshakestate import HandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
