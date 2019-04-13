@@ -124,4 +124,4 @@ class GuardedHandshakeState(ForwarderHandshakeState):
             current = self._handshake_machine.state
 
         error_message = self.ERROR_TEMPL.format(bad_method=bad_method, current=current)
-        raise AssertionError(error_message)
+        return AssertionError(error_message)
