@@ -23,7 +23,7 @@ class SymmetricState(BaseSymmetricState):
     def hashname(self):
         return self._hashfn.name
 
-    def ciherstate_has_key(self):
+    def cipherstate_has_key(self):
         return self._cipherstate.has_key()
 
     def initialize_symmetric(self, protocolname):

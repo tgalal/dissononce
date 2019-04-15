@@ -216,7 +216,7 @@ class HandshakeState(BaseHandshakeState):
                     logger.debug("        MixKey(re.public_key)")
                     self._symmetricstate.mix_key(self._re.data)
             elif token == 's':
-                if self._symmetricstate.ciherstate_has_key():
+                if self._symmetricstate.cipherstate_has_key():
                     logger.debug("        temp=message[:DHLEN + 16]")
                     temp = message[:self._dh.dhlen + 16]
                 else:

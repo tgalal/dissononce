@@ -7,7 +7,7 @@ class SymmetricState(object):
     def hashname(self):
         return None
 
-    def ciherstate_has_key(self):
+    def cipherstate_has_key(self):
         pass
 
     def initialize_symmetric(self, protocolname):
