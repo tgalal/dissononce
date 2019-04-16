@@ -1,5 +1,5 @@
 from dissononce.dh.dh import DH
-from dissononce.dh.private import PrivateKey
+from dissononce.dh.x448.private import PrivateKey
 from dissononce.dh.x448.public import PublicKey
 from dissononce.dh.keypair import KeyPair
 
