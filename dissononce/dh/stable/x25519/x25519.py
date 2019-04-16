@@ -1,21 +1,21 @@
-from dissononce.dh.dh import DH
-from dissononce.dh.x448.private import PrivateKey
-from dissononce.dh.x448.public import PublicKey
-from dissononce.dh.keypair import KeyPair
-
-from cryptography.hazmat.primitives.asymmetric import x448
+from cryptography.hazmat.primitives.asymmetric import x25519
 from cryptography.hazmat.primitives import serialization
 
+from .private import PrivateKey
+from .public import PublicKey
+from dissononce.dh.dh import DH
+from dissononce.dh.keypair import KeyPair
 
-class X448DH(DH):
+
+class X25519DH(DH):
     def __init__(self):
-        super(X448DH, self).__init__("448", 56)
+        super(X25519DH, self).__init__("25519", 32)
 
     def dh(self, keypair, publickey):
-        return x448.X448PrivateKey.from_private_bytes(
+        return x25519.X25519PrivateKey.from_private_bytes(
             keypair.private.data
         ).exchange(
-            x448.X448PublicKey.from_public_bytes(
+            x25519.X25519PublicKey.from_public_bytes(
                 publickey.data
             )
         )
@@ -25,9 +25,9 @@ class X448DH(DH):
 
     def generate_keypair(self, privatekey=None):
         if privatekey is None:
-            private = x448.X448PrivateKey.generate()
+            private = x25519.X25519PrivateKey.generate()
         else:
-            private = x448.X448PrivateKey.from_private_bytes(privatekey.data)
+            private = x25519.X25519PrivateKey.from_private_bytes(privatekey.data)
 
         public = private.public_key()
 

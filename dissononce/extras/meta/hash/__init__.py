@@ -1,7 +1,7 @@
-from dissononce.hash.sha256 import SHA256Hash
-from dissononce.hash.sha512 import SHA512Hash
-from dissononce.hash.blake2s import Blake2sHash
-from dissononce.hash.blake2b import Blake2bHash
+from dissononce.hash.stable.sha256 import SHA256Hash
+from dissononce.hash.stable.sha512 import SHA512Hash
+from dissononce.hash.stable.blake2s import Blake2sHash
+from dissononce.hash.stable.blake2b import Blake2bHash
 
 
 NAME_SHA256 = 'SHA256'

@@ -2,6 +2,9 @@ from dissononce.dh.dh import DH
 
 
 class NoGenDH(DH):
+    """A ```NoGenDH``` wraps an existing ```DH``` object, but disables keypairs generation functionality by fixing all
+    generated  keypairs to a single value determined by the```PrivateKey``` passed to it at construction.
+    This is used in tests where ephemeral values from test vectors must be used."""
     def __init__(self, dh, privatekey):
         """
         :param dh:

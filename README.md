@@ -73,14 +73,20 @@ that base class to implement the methods.
 Example instantiating objects for X25519 ```DH```, AESGCM ```Cipher``` and SHA256 ```Hash```:
 
 ```python
-from dissononce.cipher.aesgcm import AESGCMCipher
-from dissononce.dh.x25519.x25519 import X25519DH
-from dissononce.hash.sha256 import SHA256Hash
+from dissononce.cipher.stable.aesgcm import AESGCMCipher
+from dissononce.dh.stable.x25519.x25519 import X25519DH
+from dissononce.hash.stable.sha256 import SHA256Hash
 
 cipher = AESGCMCipher()
 dh = X25519DH()
 hash = SHA256Hash()
 ```
+
+Implementations for each set of crypto functions are organized according to their support level
+
+- stable: officially covered in Noise spec
+- experimental: recognized by Noise community, not officially covered in Noise spec or endorsed by it.
+- dangerous: a monkey might have written those.
 
 See [Appendix](#appendix) for other Crypto functions.
 
@@ -97,9 +103,9 @@ where Crypto-functions dependencies are also to be instantiated before passing t
 from dissononce.processing.impl.handshakestate import HandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
-from dissononce.cipher.chachapoly import ChaChaPolyCipher
-from dissononce.dh.x448.x448 import X448DH
-from dissononce.hash.sha512 import SHA512Hash
+from dissononce.cipher.stable.chachapoly import ChaChaPolyCipher
+from dissononce.dh.stable.x448.x448 import X448DH
+from dissononce.hash.stable.sha512 import SHA512Hash
 
 
 handshakestate = HandshakeState(
@@ -301,20 +307,6 @@ the new```HandshakePattern```, it analyses the required initiator and responder 
 across the transformation for use in the new Handshake. This is typically used for example when doing
 a ```IK``` handshake then switching to ```XXfallback``` where  ```re``` is to be used as a initiator pre-message.
 
-#### dh: NoGenDH
-
-```python
-from dissononce.extras.dh.dh_nogen import NoGenDH
-from dissononce.dh.x25519.x25519 import X25519DH
-
-nogenX25515 = NoGenDH(X25519DH(), X25519DH().generate_keypair().private)
-
-```
-
-A ```NoGenDH``` wraps an existing ```DH``` object, but disables keypairs generation functionality by fixing all 
-generated  keypairs to a single value determined by the```PrivateKey``` passed to it at construction. 
-This is used in tests where ephemeral values from test vectors must be used.
-
 ## Examples
 
 Inside [examples](examples) directory there are examples for some Noise protocols carrying out a handshake and
@@ -363,10 +355,14 @@ D dissononce.processing.impl.handshakestate -     buffer.append(EncryptAndHash(p
 
 ### Cipher functions
 
+Stable:
+
 - [AESGCM](dissononce/cipher/aesgcm.py)
 - [ChaChaPoly](dissononce/cipher/chachapoly.py)
  
 ### Hash functions
+
+Stable:
 
 - [Blake2b](dissononce/hash/blake2b.py)
 - [Blake2s](dissononce/hash/blake2s.py)
@@ -374,6 +370,8 @@ D dissononce.processing.impl.handshakestate -     buffer.append(EncryptAndHash(p
 - [SHA512](dissononce/hash/sha512.py)
 
 ### DH functions
+
+Stable:
 
 - [x448](dissononce/dh/x448/x448.py)
 - [x25519](dissononce/dh/x25519/x25519.py)

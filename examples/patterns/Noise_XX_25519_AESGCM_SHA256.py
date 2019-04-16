@@ -5,9 +5,9 @@ from dissononce.processing.impl.handshakestate import HandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
 from dissononce.processing.handshakepatterns.interactive.XX import XXHandshakePattern
-from dissononce.cipher.aesgcm import AESGCMCipher
-from dissononce.dh.x25519.x25519 import X25519DH
-from dissononce.hash.sha256 import SHA256Hash
+from dissononce.cipher.stable.aesgcm import AESGCMCipher
+from dissononce.dh.stable.x25519.x25519 import X25519DH
+from dissononce.hash.stable.sha256 import SHA256Hash
 import dissononce, logging
 
 
