@@ -1,4 +1,7 @@
-# Dissononce
+# Dissononce 
+
+[![Build Status](https://travis-ci.org/tgalal/dissononce.svg?branch=master)](https://travis-ci.org/tgalal/dissononce)
+[![PyPI](https://img.shields.io/pypi/v/dissononce.svg)](https://pypi.python.org/pypi/dissononce)
 
 Dissononce is a python implementation for [Noise Protocol Framework](https://noiseprotocol.org/).
 A main goal of this project is to provide a simple, easy to read and understand practical reference for
