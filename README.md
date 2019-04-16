@@ -151,6 +151,7 @@ K1K1:
   -> se
 ```
 
+See [Appendix](#appendix) for already defined Handshake Patterns.
 
 ### Modifiers
 
