@@ -189,7 +189,7 @@ class TestVectors(object):
 
         if vector.handshake_hash:
             assert init_protocol_handshakestate.symmetricstate.get_handshake_hash() == vector.handshake_hash
-            assert init_protocol_handshakestate.symmetricstate.get_handshake_hash() == vector.handshake_hash
+            assert resp_protocol_handshakestate.symmetricstate.get_handshake_hash() == vector.handshake_hash
 
         for i in range(transport_messages_offset, len(vector.messages)):
             message = vector.messages[i]
