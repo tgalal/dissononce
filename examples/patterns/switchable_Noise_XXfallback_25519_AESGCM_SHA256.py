@@ -10,9 +10,9 @@ from dissononce.processing.impl.cipherstate import CipherState
 from dissononce.processing.handshakepatterns.interactive.XX import XXHandshakePattern
 from dissononce.processing.handshakepatterns.interactive.IK import IKHandshakePattern
 from dissononce.processing.modifiers.fallback import FallbackPatternModifier
-from dissononce.cipher.stable.aesgcm import AESGCMCipher
-from dissononce.dh.stable.x25519.x25519 import X25519DH
-from dissononce.hash.stable.sha256 import SHA256Hash
+from dissononce.cipher.aesgcm import AESGCMCipher
+from dissononce.dh.x25519.x25519 import X25519DH
+from dissononce.hash.sha256 import SHA256Hash
 from dissononce.exceptions.decrypt import DecryptFailedException
 import dissononce, logging
 

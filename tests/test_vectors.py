@@ -1,7 +1,7 @@
 from dissononce.extras.meta.protocol.protocol import NoiseProtocol
 from dissononce.extras.meta.protocol.factory import NoiseProtocolFactory
 from dissononce.dh.private import PrivateKey
-from dissononce.dh.dangerous.dh_nogen import NoGenDH
+from dissononce.extras.dh.dangerous.dh_nogen import NoGenDH
 from tests.structs.vector import Vector, VectorVars, VectorMessage
 
 import json

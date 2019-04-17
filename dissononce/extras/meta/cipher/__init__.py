@@ -1,5 +1,5 @@
-from dissononce.cipher.stable.aesgcm import AESGCMCipher
-from dissononce.cipher.stable.chachapoly import ChaChaPolyCipher
+from dissononce.cipher.aesgcm import AESGCMCipher
+from dissononce.cipher.chachapoly import ChaChaPolyCipher
 
 
 NAME_CIPHER_AESGCM = 'AESGCM'

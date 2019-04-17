@@ -73,22 +73,31 @@ that base class to implement the methods.
 Example instantiating objects for X25519 ```DH```, AESGCM ```Cipher``` and SHA256 ```Hash```:
 
 ```python
-from dissononce.cipher.stable.aesgcm import AESGCMCipher
-from dissononce.dh.stable.x25519.x25519 import X25519DH
-from dissononce.hash.stable.sha256 import SHA256Hash
+from dissononce.cipher.aesgcm import AESGCMCipher
+from dissononce.dh.x25519.x25519 import X25519DH
+from dissononce.hash.sha256 import SHA256Hash
 
 cipher = AESGCMCipher()
 dh = X25519DH()
 hash = SHA256Hash()
 ```
 
-Implementations for each set of crypto functions are organized according to their support level
+Implementations for each set of crypto functions are organized according to their support level:
 
-- stable: officially covered in Noise spec
-- experimental: recognized by Noise community, not officially covered in Noise spec or endorsed by it.
-- dangerous: a monkey might have written those, just don't use.
+- **stable:** officially covered in Noise spec, accessible under:
+  - [dissononce/dh/](dissononce/dh)
+  - [dissononce/cipher/](dissononce/cipher)
+  - [dissononce/hash/](dissononce/hash)
+- **experimental:** recognized by Noise community, not officially covered in Noise spec or endorsed by it, found under:
+  - [dissononce/extras/dh/experimental/](dissononce/extras/dh/experimental/)
+  - [dissononce/extras/cipher/experimental/](dissononce/extras/cipher/experimental/)
+  - [dissononce/extras/hash/experimental/](dissononce/extras/hash/experimental/)
+- **dangerous:** a monkey might have written those, **just don't use**:
+  - [dissononce/extras/dh/dangerous/](dissononce/extras/dh/dangerous/)
+  - [dissononce/extras/cipher/dangerous/](dissononce/extras/cipher/dangerous/)
+  - [dissononce/extras/hash/dangerous/](dissononce/extras/hash/dangerous/)
 
-See [Appendices](#appendices) for other Crypto functions.
+See [Appendices](#appendices) for available Crypto functions.
 
 ### Processing
 
@@ -103,9 +112,9 @@ where Crypto-functions dependencies are also to be instantiated before passing t
 from dissononce.processing.impl.handshakestate import HandshakeState
 from dissononce.processing.impl.symmetricstate import SymmetricState
 from dissononce.processing.impl.cipherstate import CipherState
-from dissononce.cipher.stable.chachapoly import ChaChaPolyCipher
-from dissononce.dh.stable.x448.x448 import X448DH
-from dissononce.hash.stable.sha512 import SHA512Hash
+from dissononce.cipher.chachapoly import ChaChaPolyCipher
+from dissononce.dh.x448.x448 import X448DH
+from dissononce.hash.sha512 import SHA512Hash
 
 
 handshakestate = HandshakeState(
@@ -220,9 +229,9 @@ handshakestate.initialize(
 ### Extras
 
 Classes and functions that are not part of Noise Protocol specification but are part of this implementation are referred
-to as "Extras" or "Deviations". Examples for Extras are helpers, classes that simplify usage of the library or wrappers
-that enforce some rules or design patterns. Extras should be decoupled as much as possible from the base spec
-implementation and never referenced from there.
+to as "Extras" or "Deviations". Examples for Extras are helpers, classes that simplify usage of the library, wrappers
+that enforce some rules or design patterns, or crypto functions that are not part of Noise Spec. Extras should be
+decoupled as much as possible from the base spec implementation and never referenced from there.
 
 #### meta: Crypto-functions by name:
 
