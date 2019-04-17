@@ -17,9 +17,9 @@ implementation/API and are optional to use.
 
 ## META-INF
 ```
-dissononce version: 0.34.0
+dissononce version: 0.34.1
 noise revision: 34
-released: 2019-04-13
+released: 2019-04-17
 requires:
 - python>=2.5,<=3.7
 - cryptography==2.6.1
