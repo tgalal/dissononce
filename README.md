@@ -241,6 +241,8 @@ dh = DHFactory().get_dh('25519')
 
 ```
 
+Note that creating by name supports stable/official algorithms only at the moment.
+
 #### meta: Protocol by name:
 
 A Noise Protocol, that is:
@@ -262,6 +264,8 @@ protocol = NoiseProtocolFactory().get_noise_protocol('Noise_XX_25519_AESGCM_SHA2
 handshakestate = protocol.create_handshakestate()
 
 ```
+
+Note that creating by name supports stable/official algorithms only at the moment.
 
 #### processing: GuardedHandshakeState
 
