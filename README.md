@@ -86,7 +86,7 @@ Implementations for each set of crypto functions are organized according to thei
 
 - stable: officially covered in Noise spec
 - experimental: recognized by Noise community, not officially covered in Noise spec or endorsed by it.
-- dangerous: a monkey might have written those.
+- dangerous: a monkey might have written those, just don't use.
 
 See [Appendices](#appendices) for other Crypto functions.
 
