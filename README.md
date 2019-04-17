@@ -44,7 +44,7 @@ uses:
 - [Examples](#examples)
 - [Testing](#testing)
 - [Logging](#logging)
-- [Appendix](#appendix)
+- [Appendices](#appendices)
 
 
 ## Installation
@@ -88,7 +88,7 @@ Implementations for each set of crypto functions are organized according to thei
 - experimental: recognized by Noise community, not officially covered in Noise spec or endorsed by it.
 - dangerous: a monkey might have written those.
 
-See [Appendix](#appendix) for other Crypto functions.
+See [Appendices](#appendices) for other Crypto functions.
 
 ### Processing
 
@@ -157,7 +157,7 @@ K1K1:
   -> se
 ```
 
-See [Appendix](#appendix) for already defined Handshake Patterns.
+See [Appendices](#appendices) for already defined Handshake Patterns.
 
 ### Modifiers
 
@@ -351,7 +351,7 @@ D dissononce.processing.impl.handshakestate -         MixHash(e.public_key)
 D dissononce.processing.impl.handshakestate -     buffer.append(EncryptAndHash(payload))
 ```
 
-## Appendix
+## Appendices
 
 ### Cipher functions
 
