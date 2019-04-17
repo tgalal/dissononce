@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project (kinda) adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.34.2] - 2019-04-17
+
+### Changed
+
+- Relocate experimental and dangerous packages to extras
+- Move stable algorithms out of stable package as the package is now redundant
+
 ## [0.34.1] - 2019-04-17
 
 ### Added

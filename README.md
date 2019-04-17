@@ -17,7 +17,7 @@ implementation/API and are optional to use.
 
 ## META-INF
 ```
-dissononce version: 0.34.1
+dissononce version: 0.34.2
 noise revision: 34
 released: 2019-04-17
 requires:
