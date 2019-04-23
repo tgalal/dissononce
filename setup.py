@@ -6,7 +6,7 @@ setup(
     name='dissononce',
     version=dissononce.__version__,
     packages=find_packages(exclude=['tests', 'examples']),
-    install_requires=['cryptography'],
+    install_requires=['cryptography>=2.5'],
     extras_require={
         'GuardedHandshakeState': ['transitions']
     },

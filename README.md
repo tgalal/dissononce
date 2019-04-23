@@ -22,7 +22,7 @@ noise revision: 34
 released: 2019-04-17
 requires:
 - python>=2.5,<=3.7
-- cryptography==2.6.1
+- cryptography>=2.5
 uses:
 - transitions==0.6.9
 ```
