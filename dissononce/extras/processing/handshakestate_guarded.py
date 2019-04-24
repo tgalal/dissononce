@@ -19,7 +19,10 @@ class GuardedHandshakeState(ForwarderHandshakeState):
     ]
     _TRANSITIONS = [
         ['start', 'init', 'handshake'],
-        ['next', 'handshake', '='],
+        # 'next' would be more compact but it conflicts
+        # with object.next already available if user has
+        # 'future' on py2 installed
+        ['next_message', 'handshake', '='],
         ['start', 'handshake', '='],
         ['finish', 'handshake', 'finish'],
         ['start', 'finish', 'handshake']
@@ -87,7 +90,7 @@ class GuardedHandshakeState(ForwarderHandshakeState):
 
     def write_message(self, payload, message_buffer):
         try:
-            self._handshake_machine.next()
+            self._handshake_machine.next_message()
             self._pattern_machine.write()
         except MachineError as ex:
             raise self._convert_machine_error(ex, 'write_message')
@@ -99,7 +102,7 @@ class GuardedHandshakeState(ForwarderHandshakeState):
 
     def read_message(self, message, payload_buffer):
         try:
-            self._handshake_machine.next()
+            self._handshake_machine.next_message()
             self._pattern_machine.read()
         except MachineError as ex:
             raise self._convert_machine_error(ex, 'read_message')
