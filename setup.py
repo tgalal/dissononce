@@ -5,12 +5,12 @@ from setuptools import find_packages, setup
 setup(
     name='dissononce',
     version=dissononce.__version__,
-    packages=find_packages(exclude=['tests', 'examples']),
+    packages=find_packages(exclude=['tests*', 'examples']),
     install_requires=['cryptography>=2.5'],
     extras_require={
         'GuardedHandshakeState': ['transitions']
     },
-    test_requires=['pytest'],
+    tests_require=['pytest'],
     license='MIT',
     author='Tarek Galal',
     author_email='tare2.galal@gmail.com',
