@@ -32,7 +32,7 @@ class CipherState(object):
         self._nonce = nonce
 
     def rekey(self):
-        self.initialize_key(self._cipher.rekey(self._key))
+        self._key = self._cipher.rekey(self._key)
 
     def encrypt_with_ad(self, ad, plaintext):
         """
