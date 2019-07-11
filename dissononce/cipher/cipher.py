@@ -46,4 +46,4 @@ class Cipher(object):
         :return:
         :rtype: bytes
         '''
-        return self.encrypt(key, 2**64 - 1, b"", bytes([0] * 32))
+        return self.encrypt(key, 2**64 - 1, b"", bytes([0] * 32))[:32]
