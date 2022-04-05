@@ -1,1 +1,13 @@
-cryptography
+attrs==21.4.0
+cffi==1.15.0
+cryptography==36.0.2
+ecdsa==0.17.0
+iniconfig==1.1.1
+packaging==21.3
+pluggy==1.0.0
+py==1.11.0
+pycparser==2.21
+pyparsing==3.0.7
+pytest==7.1.1
+six==1.16.0
+tomli==2.0.1

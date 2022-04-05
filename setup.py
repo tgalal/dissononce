@@ -6,7 +6,7 @@ setup(
     name='dissononce',
     version=dissononce.__version__,
     packages=find_packages(exclude=['tests*', 'examples']),
-    install_requires=['cryptography>=2.5'],
+    install_requires=['cryptography>=2.5', 'ecdsa>=0.17.0'],
     extras_require={
         'GuardedHandshakeState': ['transitions']
     },
@@ -23,10 +23,6 @@ setup(
                  'Intended Audience :: Developers',
                  'License :: OSI Approved :: MIT License',
                  'Natural Language :: English',
-                 'Programming Language :: Python :: 2',
-                 'Programming Language :: Python :: 2.5',
-                 'Programming Language :: Python :: 2.6',
-                 'Programming Language :: Python :: 2.7',
                  'Programming Language :: Python :: 3',
                  'Programming Language :: Python :: 3.3',
                  'Programming Language :: Python :: 3.4',

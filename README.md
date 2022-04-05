@@ -389,6 +389,10 @@ Stable:
 - [x448](dissononce/dh/x448/x448.py)
 - [x25519](dissononce/dh/x25519/x25519.py)
 
+Experimental:
+
+- [secp256k1](dissononce/dh/secp256k1/secp256k1.py)
+
 ### Handshake Patterns
 
 Interactive:
