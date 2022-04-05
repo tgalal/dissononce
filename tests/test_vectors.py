@@ -24,6 +24,7 @@ class TestVectors(object):
     VECTOR_MESSAGES = 'messages'
     VECTOR_MESSAGE_PAYLOAD = 'payload'
     VECTOR_MESSAGE_CIPHERTEXT = 'ciphertext'
+    VECTOR_MESSAGE_FROM_INIT = 'from_initiator'
 
     def pytest_generate_tests(self, metafunc):
         vectors_files = [os.path.join(self.DIR_VECTORS, f) for f in os.listdir(self.DIR_VECTORS) if os.path.isfile(os.path.join(self.DIR_VECTORS, f))]
@@ -114,7 +115,8 @@ class TestVectors(object):
             messages=[
                 VectorMessage(
                     binascii.unhexlify(message[self.VECTOR_MESSAGE_PAYLOAD]),
-                    binascii.unhexlify(message[self.VECTOR_MESSAGE_CIPHERTEXT])
+                    binascii.unhexlify(message[self.VECTOR_MESSAGE_CIPHERTEXT]),
+                    message[self.VECTOR_MESSAGE_FROM_INIT] if self.VECTOR_MESSAGE_FROM_INIT in message else None,
                 ) for message in messages
             ]
         )
@@ -194,7 +196,7 @@ class TestVectors(object):
         for i in range(transport_messages_offset, len(vector.messages)):
             message = vector.messages[i]
 
-            if init_protocol.oneway or i % 2 == 0:
+            if message.from_initiator or init_protocol.oneway or i % 2 == 0:
                 assert message.ciphertext == init_cipherstates[0].encrypt_with_ad(b'', message.payload)
                 assert message.payload == resp_cipherstates[0].decrypt_with_ad(b'', message.ciphertext)
             else:
