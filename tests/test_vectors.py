@@ -30,18 +30,20 @@ class TestVectors(object):
         vectors_files = [os.path.join(self.DIR_VECTORS, f) for f in os.listdir(self.DIR_VECTORS) if os.path.isfile(os.path.join(self.DIR_VECTORS, f))]
         vectors = map(self._read_vectors_file, vectors_files)
         relevant_vectors = []
+        ids = []
         factory = NoiseProtocolFactory()
 
         for v in vectors:
            for protocol_vector in v['vectors']:
-                try:
+               try:
                     vector = self._deserialize_vector(protocol_vector)
                     noiseprotocol = factory.get_noise_protocol(protocol_vector['protocol_name'])
                     relevant_vectors.append((noiseprotocol, vector))
-                except ValueError:
-                    pass
+                    ids.append(protocol_vector['protocol_name'])
+               except ValueError as e:
+                   print("Ignoring %s: %s" % (protocol_vector['protocol_name'], e))
 
-        metafunc.parametrize(('noiseprotocol', 'vector'), relevant_vectors)
+        metafunc.parametrize(('noiseprotocol', 'vector'), relevant_vectors, ids=ids)
 
     def _read_vectors_file(self, path):
         """
