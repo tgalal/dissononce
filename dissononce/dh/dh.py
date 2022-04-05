@@ -2,9 +2,10 @@ from dissononce.dh.public import PublicKey
 
 
 class DH(object):
-    def __init__(self, name, dhlen):
+    def __init__(self, name, dhlen, pubkeylen=None):
         self._name = name
         self._dhlen = dhlen
+        self._pubkeylen = pubkeylen or self._dhlen
 
     @property
     def name(self):
@@ -17,6 +18,10 @@ class DH(object):
     @property
     def dhlen(self):
         return self._dhlen
+
+    @property
+    def pubkeylen(self):
+        return self._pubkeylen
 
     def generate_keypair(self, privatekey=None):
         """
@@ -35,7 +40,7 @@ class DH(object):
         :return:
         :rtype: dissononce.dh.public.PublicKey
         """
-        raise PublicKey(data, self.dhlen)
+        raise PublicKey(data, self.pubkeylen)
 
     def dh(self, key_pair, public_key):
         """

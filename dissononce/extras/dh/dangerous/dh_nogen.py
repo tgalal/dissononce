@@ -12,7 +12,7 @@ class NoGenDH(DH):
         :param privatekey:
         :type privatekey: dissononce.dh.private.PrivateKey
         """
-        super(NoGenDH, self).__init__(dh.name, dh.dhlen)
+        super(NoGenDH, self).__init__(dh.name, dh.dhlen, dh.pubkeylen)
         self._dh = dh
         self._privatekey = privatekey
 
